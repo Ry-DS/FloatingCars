@@ -1,0 +1,41 @@
+# All players with the permission, forcerules.rules will be given the following.
+# Players with, forcerules.bypass will skip the Rules section.
+
+
+   
+
+    # Is the player locked in place?
+Freeze: true
+
+    # Can the player type in chat?
+Speak: false
+
+    # Can the player see chat?
+Show-Chat: true
+
+
+Rules:
+- '&7&l-------------RULES-------------'
+- '&4&l1) &4No cheating!'
+- '&4&l3) &4Respect our staff!'
+- '&c    They work hard to provide you an amazing experience!'
+- '&7&l-------------------------------'
+
+    # The delay between each command input. In tps, one second is 20 tps.
+delay: 5
+   
+    # These commands will be entered through console when a player accepts the rules.
+    # %player% will be replaced with the players name that entered the command.
+    # %rawmsg% will send a message to the player in a broadcast format
+Accept-cmds:
+- 'pex user %player% group set member'
+- 'broadcast &dWelcome %player%, to the Server!!'
+- '%rawmsg% &dThankyou for accepting the rules!'
+  
+
+    # These commands will be entered through console when a player declines the rules.
+Decline-cmds:
+- '%rawmsg% &cSorry you feel that way.'
+- 'kick %player% Try reading the rules and agreeing...'
+# Credit goes to Bandi for making this simple config and for the idea
+# Original Thread: https://bukkit.org/threads/force-rules-freeze-the-player.444369/#post-3480652
