@@ -135,7 +135,9 @@ public class CarYml {
 				
 				if(iret.getType().isBlock()){
 					ItemMeta meta=iret.getItemMeta();
-					meta.setDisplayName(carstats.getString("item-name",ChatColor.RED+"ERROR! Invalid or no name given!"));
+					meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', carstats.getString("item-name",ChatColor.RED+"ERROR! Invalid or no name given!")));
+					List<String>lore=new ArrayList<>();
+					carstats.getStringList("lore").forEach((s)->lore.add(ChatColor.translateAlternateColorCodes('&',s)));
 					meta.setLore(carstats.getStringList("lore"));
 					iret.setItemMeta(meta);
 					

@@ -3,6 +3,7 @@ package com.SimplyBallistic.FloatingCars;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SimplyBallistic.FloatingCars.commands.Command_Main;
@@ -20,6 +21,7 @@ public class FCMain extends JavaPlugin {
 	private static FCMain instance;
 	private static ZotLib zotLib;
 	public static List<HoverCar> cars;
+	public static String prefix="["+ChatColor.GOLD+ChatColor.ITALIC+"SpaceCars"+ChatColor.RESET+"]";
 	@Override
 	public void onLoad() {
 		instance=this;
