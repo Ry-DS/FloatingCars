@@ -43,4 +43,8 @@ default:
     # The max fuel this car can hold. Do fuel-cap/fuel-time to get the amount of fuel needed 
     # for a full tank!
     fuel-cap: 1000
+    # Whether this car can jump. This only applies if the car cannot fly
+    jump: false
+    # The amount of fuel to use in order to jump
+    jump-cost: 50
     

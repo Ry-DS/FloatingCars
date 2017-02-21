@@ -204,6 +204,12 @@ public class CarYml {
 				// TODO Auto-generated method stub
 				return carstats.getInt("fuel-cap",1000);
 			}
+			@Override
+			public Integer getJump() {
+				// TODO Auto-generated method stub
+				if(carstats.getBoolean("jump", true))return carstats.getInt("jump-cost", 50);
+				else return null;
+			}
 		};
 		FCMain.cars.add(ret);
 		as.setVisible(false);

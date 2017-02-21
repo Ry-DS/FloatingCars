@@ -38,5 +38,9 @@ public interface HoverCar {
 	public int getCapacity();
 	public int getFuelTime();
 	public double getMaxHeight();
-   
+	/**
+	 * 
+	 * @return null if the car cannot jumpl, value with strength if can
+	 */
+   public Integer getJump();
 }

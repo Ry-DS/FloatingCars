@@ -19,6 +19,7 @@ public void onRide(PlayerInteractAtEntityEvent e){
 		if(hc.getCar().getUniqueId().equals(e.getRightClicked().getUniqueId())){
 			if(hc.getOwner()!=null&&!e.getPlayer().getUniqueId().equals(hc.getOwner())){
 				e.getPlayer().sendMessage(ChatColor.RED+"That's not your car!");
+				e.setCancelled(true);
 				return;
 			}
 			if(e.getPlayer().isSneaking()){

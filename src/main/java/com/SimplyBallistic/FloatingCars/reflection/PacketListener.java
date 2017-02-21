@@ -76,6 +76,7 @@ public class PacketListener extends PacketAdapter {
 				boolean space = packet.c();
 				float forward = packet.b();
 				float side = packet.a();
+				
 				Vector continuesVelocity=car.getVelocity();
 				//System.out.println("Ride packet: space:"+space+" shift:"+shift+" forward:"+forward);
 				if(space&&shift){car.setGravity(false);e.setCancelled(true);return;}
@@ -109,7 +110,15 @@ public class PacketListener extends PacketAdapter {
 					car.setVelocity(car.getVelocity().setX(-0.5));
 				else if(side<0)
 					car.setVelocity(car.getLocation().getDirection().multiply(0.5).getCrossProduct(car.getLocation().getDirection().multiply(-0.5)));*/
+				canFly:{
 				if(space){
+					
+					if(!hc.canFly()&&hc.getJump()!=null){
+						if(car.isOnGround()){car.setVelocity(car.getVelocity().setY(hc.getSpaceSpeed()));
+						  	fuel.put(hc, fuel.get(hc)-hc.getJump());
+						}
+						else break canFly;
+					}
 					if(fuel.get(hc)<=0)FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.RED+"No Fuel", 1, 1, 1);
 					else{
 					fuel.put(hc, fuel.get(hc)-1);
@@ -118,7 +127,7 @@ public class PacketListener extends PacketAdapter {
 					else
 					car.setVelocity(car.getVelocity().setY(hc.getSpaceSpeed()));
 					}	
-				}
+				}}
 				if(shift){
 					
 					car.setVelocity(car.getVelocity().setY(-hc.getShiftSpeed()));
