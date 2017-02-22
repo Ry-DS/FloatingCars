@@ -81,8 +81,21 @@ public class PacketListener extends PacketAdapter {
 				//System.out.println("Ride packet: space:"+space+" shift:"+shift+" forward:"+forward);
 				if(space&&shift){car.setGravity(false);e.setCancelled(true);return;}
 				else car.setGravity(true);
-				((CraftArmorStand) car).getHandle().yaw =e.getPlayer().getLocation().getYaw();
-				if(((!space&&!shift&&forward==0)||space&&shift)&&fuel.get(hc)>0){hover(car);}
+				CraftArmorStand handle=(CraftArmorStand) car;
+				handle.getHandle().yaw =e.getPlayer().getLocation().getYaw();
+				
+				if(((!space&&!shift&&forward==0)||space&&shift)&&fuel.get(hc)>0){
+					
+					
+					if(handle.getLocation().subtract(0,FCMain.getInstance().getConfig().getDouble("hover-height",1),0)
+							.getBlock().getType().equals(Material.AIR))
+						car.setVelocity(car.getVelocity().setY(0.5));
+						
+						else
+						hover(car);
+					
+				
+				}
 				else {car.setGravity(true);}
 			
 				if(forward>0){
@@ -94,7 +107,9 @@ public class PacketListener extends PacketAdapter {
 					if(!car.isOnGround())
 					continuesVelocity=car.getLocation().getDirection().multiply(hc.getSpeed());
 					else continuesVelocity=car.getLocation().getDirection().multiply(hc.getSpeed()/1.5);
+					if(!FCMain.getInstance().getConfig().getBoolean("fly-lookup",false))
 					car.setVelocity(continuesVelocity/*.setY(e.getPlayer().getLocation().getDirection().getY())*/);
+					else car.setVelocity(continuesVelocity.setY(e.getPlayer().getLocation().getDirection().getY()));
 					}
 				}
 				if(forward<0){
@@ -114,11 +129,16 @@ public class PacketListener extends PacketAdapter {
 				if(space){
 					
 					if(!hc.canFly()&&hc.getJump()!=null){
-						if(car.isOnGround()){car.setVelocity(car.getVelocity().setY(hc.getSpaceSpeed()));
+						if(!car.getLocation().subtract
+								(0, FCMain.getInstance().getConfig().getDouble("hover-height"), 0).
+								getBlock().getType().equals(Material.AIR)){
+							car.setVelocity(car.getVelocity().setY(hc.getSpaceSpeed()));
 						  	fuel.put(hc, fuel.get(hc)-hc.getJump());
 						}
 						else break canFly;
 					}
+					if(FCMain.getInstance().getConfig().getBoolean("fly-lookup",false))
+						break canFly;
 					if(fuel.get(hc)<=0)FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.RED+"No Fuel", 1, 1, 1);
 					else{
 					fuel.put(hc, fuel.get(hc)-1);
@@ -129,11 +149,15 @@ public class PacketListener extends PacketAdapter {
 					}	
 				}}
 				if(shift){
-					
+					if(FCMain.getInstance().getConfig().getBoolean("fly-lookup",false)){
 					car.setVelocity(car.getVelocity().setY(-hc.getShiftSpeed()));
-					e.setCancelled(true);}
-				if(!shift&&!space&&forward==0&&side<0){
+					e.setCancelled(true);
 					
+					}else return;
+					
+					}
+				if(!shift&&!space&&forward==0&&side<0){
+					if(!FCMain.getInstance().getConfig().getBoolean("dismount-air",false)){
 					if(car.isOnGround()||!car.getLocation().subtract(0, 1, 0).getBlock().getType().equals(Material.AIR)||fuel.get(hc)<=0){
 					car.eject();
 					car.setGravity(true);}
@@ -141,6 +165,9 @@ public class PacketListener extends PacketAdapter {
 						FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.RED+"Land First!", 20, 10, 20);
 						FCMain.getZotLib().getPacketLibrary().getTitleManager().sendSubTitle(e.getPlayer(), ChatColor.GREEN+"Land if you wish to dismount", 20, 20, 20);
 					
+					}}else{
+						car.eject();
+						car.setGravity(true);
 					}
 					}
 				if(!shift&&!space&&forward==0&&side>0){
