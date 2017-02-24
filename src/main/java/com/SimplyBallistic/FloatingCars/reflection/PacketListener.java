@@ -25,13 +25,12 @@ import com.comphenix.protocol.events.PacketEvent;
 import net.minecraft.server.v1_11_R1.PacketPlayInSteerVehicle;
 
 public class PacketListener extends PacketAdapter {
-	private HashMap<HoverCar, Integer>hovertime=new HashMap<>();
+	private static HashMap<HoverCar, Integer>hovertime=new HashMap<>();
 	public static HashMap<HoverCar, Integer>fuel=new HashMap<>();
 	public PacketListener(Plugin plugin) {
 		super(plugin,ListenerPriority.NORMAL, new PacketType[]{PacketType.Play.Client.STEER_VEHICLE/*,PacketType.Play.Server.CHAT*/});
 		ProtocolLibrary.getProtocolManager().addPacketListener(this);
 	}
-	private int tickcount=0;
 	private boolean hoverUp=true;
 	/*@Override
 	public void onPacketSending(PacketEvent e) {
@@ -71,7 +70,6 @@ public class PacketListener extends PacketAdapter {
 				if(fuel.get(hc)==null)fuel.put(hc,PlayerData.getFuel(e.getPlayer().getUniqueId(), hc.getCarType()));
 				
 				Block b=car.getLocation().getBlock();
-				tickcount++;
 				boolean shift = packet.d();
 				boolean space = packet.c();
 				float forward = packet.b();
@@ -87,12 +85,8 @@ public class PacketListener extends PacketAdapter {
 				if(((!space&&!shift&&forward==0)||space&&shift)&&fuel.get(hc)>0){
 					
 					
-					if(handle.getLocation().subtract(0,FCMain.getInstance().getConfig().getDouble("hover-height",1),0)
-							.getBlock().getType().equals(Material.AIR))
-						car.setVelocity(car.getVelocity().setY(0.5));
-						
-						else
-						hover(car);
+					
+						hover(hc);
 					
 				
 				}
@@ -129,9 +123,7 @@ public class PacketListener extends PacketAdapter {
 				if(space){
 					
 					if(!hc.canFly()&&hc.getJump()!=null){
-						if(!car.getLocation().subtract
-								(0, FCMain.getInstance().getConfig().getDouble("hover-height"), 0).
-								getBlock().getType().equals(Material.AIR)){
+						if(car.isOnGround()){
 							car.setVelocity(car.getVelocity().setY(hc.getSpaceSpeed()));
 						  	fuel.put(hc, fuel.get(hc)-hc.getJump());
 						}
@@ -149,7 +141,7 @@ public class PacketListener extends PacketAdapter {
 					}	
 				}}
 				if(shift){
-					if(FCMain.getInstance().getConfig().getBoolean("fly-lookup",false)){
+					if(FCMain.getInstance().getConfig().getBoolean("fly-lookup",false)||!hc.canFly()){
 					car.setVelocity(car.getVelocity().setY(-hc.getShiftSpeed()));
 					e.setCancelled(true);
 					
@@ -234,16 +226,30 @@ public class PacketListener extends PacketAdapter {
 		return;
  
 	}
-	private void hover(ArmorStand car){
-		tickcount++;
+	private void hover(HoverCar car){
+		
+		if(hovertime.get(car) == null)hovertime.put(car, 0);
+		hovertime.put(car, hovertime.get(car)+1);
 		if(hoverUp)
-			car.setVelocity(car.getVelocity().setY(0.05));
-		else car.setVelocity(car.getVelocity().setY(-0.05));
-		if(tickcount>20){
+			car.getCar().setVelocity((car.getCar().getVelocity().setY(0.05)));
+		else car.getCar().setVelocity(car.getCar().getVelocity().setY(-0.05));
+		if(hovertime.get(car)%20==0){
 			hoverUp=!hoverUp;
-			tickcount=0;
+		
 		}
 		
+		
+		
+	}
+	public static void deleteCar(HoverCar car){
+		
+		FCMain.cars.remove(car);
+		hovertime.remove(car);
+		if(car.getOwner()!=null)
+			PlayerData.setFuel(car.getOwner(), car.getCarType(), fuel.get(car));
+		fuel.remove(car);
+		FCMain.getInstance().getLogger().info("Car: "+car.getCarType()+" was saved and deleted succesfully");
+		if(!car.getCar().isDead())car.getCar().remove();
 		
 		
 	}

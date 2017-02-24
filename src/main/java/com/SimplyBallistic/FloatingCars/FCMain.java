@@ -18,6 +18,12 @@ import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
 import XZot1K.plugins.zl.ZotLib;
 
 public class FCMain extends JavaPlugin {
+	//TODO
+	/*
+	Make option public cars dont need fuel, configurable
+	Make public cars that despawn in a time, then respawn somewhere. Location set by command. need new config for that
+	All da commands, killall, gui, config reload, give,
+	 */
 	private static FCMain instance;
 	private static ZotLib zotLib;
 	public static List<HoverCar> cars;
@@ -47,9 +53,9 @@ public class FCMain extends JavaPlugin {
 	}
 	@Override
 	public void onDisable() {
-	cars.forEach((as)->as.getCar().remove());
-	PacketListener.fuel.forEach((hc,i)->{PlayerData.setFuel(hc.getOwner(), hc.getCarType(), i);});
-	
+//	cars.forEach((as)->as.getCar().remove());
+//	PacketListener.fuel.forEach((hc,i)->{PlayerData.setFuel(hc.getOwner(), hc.getCarType(), i);});
+		cars.forEach(PacketListener::deleteCar);	
 	
 	}
 	public static FCMain getInstance(){

@@ -45,11 +45,9 @@ public class Command_Main implements TabExecutor {
 			
 			for(int i=0;i<FCMain.cars.size();){
 				HoverCar hs=FCMain.cars.get(i);
-				if(!hs.getCar().isDead()&&hs.getOwner().equals(p.getUniqueId())&&hs.getCarType().equals(args[0])){
-				PlayerData.setFuel(p.getUniqueId(), args[0], PacketListener.fuel.get(hs));
-				hs.getCar().remove();
-				FCMain.cars.remove(i);
-				}
+				if(!hs.getCar().isDead()&&hs.getOwner().equals(p.getUniqueId())&&hs.getCarType().equals(args[0]))
+					PacketListener.deleteCar(hs);
+				
 				else i++;
 			}
 			HoverCar car=CarYml.spawnCar(args[0], l, p.getUniqueId());
