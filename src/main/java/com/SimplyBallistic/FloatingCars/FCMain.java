@@ -1,7 +1,9 @@
 package com.SimplyBallistic.FloatingCars;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,6 +16,7 @@ import com.SimplyBallistic.FloatingCars.listeners.InteractListener;
 import com.SimplyBallistic.FloatingCars.listeners.InventorySaver;
 import com.SimplyBallistic.FloatingCars.listeners.RideListener;
 import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
+import com.SimplyBallistic.util.StopWatch;
 
 import XZot1K.plugins.zl.ZotLib;
 
@@ -27,11 +30,13 @@ public class FCMain extends JavaPlugin {
 	private static FCMain instance;
 	private static ZotLib zotLib;
 	public static List<HoverCar> cars;
+	public static Map<HoverCar,StopWatch> pcars;
 	public static String prefix="["+ChatColor.GOLD+ChatColor.ITALIC+"SpaceCars"+ChatColor.RESET+"]";
 	@Override
 	public void onLoad() {
 		instance=this;
 		cars=new ArrayList<HoverCar>();
+		pcars=new HashMap<>();
 		new CarYml();
 		new PlayerData();
 	saveDefaultConfig();

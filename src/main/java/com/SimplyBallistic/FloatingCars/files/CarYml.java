@@ -99,7 +99,7 @@ public class CarYml {
 			
 			@Override
 			public Material getFuel() {
-				
+				if(carstats.getString("fuel","coal").equals("none"))return null;
 				return Material.valueOf(carstats.getString("fuel","coal").toUpperCase());
 			}
 			

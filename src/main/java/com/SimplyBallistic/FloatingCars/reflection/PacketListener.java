@@ -67,8 +67,11 @@ public class PacketListener extends PacketAdapter {
 				ArmorStand car = (ArmorStand) e.getPlayer().getVehicle();
 				if(!car.getPassengers().isEmpty()&&!(car.getPassengers().get(0) instanceof Player))
 					return;
-				if(fuel.get(hc)==null)fuel.put(hc,PlayerData.getFuel(e.getPlayer().getUniqueId(), hc.getCarType()));
-				
+				if(fuel.get(hc)==null){
+					if(hc.getFuel()!=null)
+					fuel.put(hc,PlayerData.getFuel(e.getPlayer().getUniqueId(), hc.getCarType()));
+					else fuel.put(hc,Integer.MAX_VALUE);
+				}
 				Block b=car.getLocation().getBlock();
 				boolean shift = packet.d();
 				boolean space = packet.c();
@@ -170,10 +173,12 @@ public class PacketListener extends PacketAdapter {
 				DecimalFormat df = new DecimalFormat("#.#");
 				df.setRoundingMode(RoundingMode.CEILING);
 				String meter="";
+				if(hc.getFuel()!=null)
 				for(int i=0;i<Math.abs((float)fuel.get(hc)/hc.getCapacity()*100f);i++){
 					meter+="|";
 					
 				}
+				
 				/*df.format(Math.abs((float)fuel.get(hc)/hc.getCapacity()*100f))*/
 				FCMain.getZotLib().getPacketLibrary().getActionBarManager().sendActionbar(e.getPlayer(), ChatColor.GOLD+"Fuel: "+ChatColor.YELLOW+meter);
 				//car.setVelocity(car.getLocation().getDirection().setY(e.getPlayer().getLocation().getDirection().getY()));
