@@ -1,5 +1,6 @@
 package com.SimplyBallistic.FloatingCars.commands;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +37,10 @@ public class Command_Main implements TabExecutor {
 			return true;
 			
 		}
+		String[] commandArgs = Arrays.copyOfRange(args, 1, args.length);
+
 		if(sender instanceof Player){
+			
 			Player p=(Player)sender;
 			
 			List<Block> blocks=p.getLineOfSight((Set<Material>)null, 50);
