@@ -2,6 +2,7 @@ package com.SimplyBallistic.FloatingCars.files;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -51,6 +52,9 @@ public static void setInventory(UUID id, Inventory i,String car){
 public static boolean playerOwns(UUID id,String car){
 	
 	return config.contains(id+".cars."+car);
+}
+public static Set<String> playerOwnsList(UUID id){
+	return config.getConfigurationSection(id+".cars").getKeys(false);
 }
 public static void giveCar(UUID id,String car){
 	if(config.contains(id+".cars."+car))return;

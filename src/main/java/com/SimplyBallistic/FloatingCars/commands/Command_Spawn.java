@@ -1,5 +1,6 @@
 package com.SimplyBallistic.FloatingCars.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,9 +22,13 @@ public class Command_Spawn implements SubCommand {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		// TODO Auto-generated method stub
+		
 		if(args.length==1){
-			return CarYml.contents();
-			
+			List<String>ret=new ArrayList<>();
+			for(String s:CarYml.contents())
+				if(s.startsWith(args[0]))
+			ret.add(s);
+			return ret;
 		}
 		return null;
 			

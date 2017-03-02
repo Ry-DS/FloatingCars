@@ -19,8 +19,14 @@ public class Command_Give implements SubCommand{
 		// TODO Auto-generated method stub
 		List<String> ret=new ArrayList<>();
 		if(args.length==1)
-		for(Player p:Bukkit.getOnlinePlayers())ret.add(p.getName());
-		if(args.length==2){ret.clear();ret.addAll(CarYml.contents());}
+		for(Player p:Bukkit.getOnlinePlayers())
+			if(p.getName().startsWith(args[0]))
+			ret.add(p.getName());
+		if(args.length==2)
+			for(String s:CarYml.contents())
+				if(s.startsWith(args[1]))
+					ret.add(s);
+			
 		return ret;
 		
 	}

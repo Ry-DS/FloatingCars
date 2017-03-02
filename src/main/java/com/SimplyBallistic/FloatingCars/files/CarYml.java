@@ -139,39 +139,7 @@ public class CarYml {
 			@Override
 			public ItemStack getItem() {
 				// TODO Auto-generated method stub
-				@SuppressWarnings("deprecation")
-				ItemStack iret=new ItemStack(Material.valueOf(carstats.getString("block", "potato_item").toUpperCase()),1,(short)0,(byte)carstats.getInt("block-data",0));
-				
-				if(iret.getType().isBlock()){
-					ItemMeta meta=iret.getItemMeta();
-					meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', carstats.getString("item-name",ChatColor.RED+"ERROR! Invalid or no name given!")));
-					List<String>lore=new ArrayList<>();
-					carstats.getStringList("lore").forEach((s)->lore.add(ChatColor.translateAlternateColorCodes('&',s)));
-					meta.setLore(carstats.getStringList("lore"));
-					iret.setItemMeta(meta);
-					
-					
-					
-					
-					
-					
-				}else{
-					ItemMeta meta=iret.getItemMeta();
-					meta.setDisplayName(ChatColor.RED+"FATAL ERROR: Not a Block!");
-					List<String>error=new ArrayList<>();
-					error.add("The value you have under 'block' is not a block!");
-					error.add("placing this >could< break the server! BE WARNED");
-					meta.setLore(error);
-					iret.setItemMeta(meta);
-				}
-				net.minecraft.server.v1_11_R1.ItemStack nmsitem=CraftItemStack.asNMSCopy(iret);
-				NBTTagCompound nbt=nmsitem.getTag();
-				nbt.setString("FCcar", getCarType());
-				if(getOwner()!=null)
-				nbt.setString("FCowner", getOwner().toString());
-				nmsitem.setTag(nbt);
-				iret=CraftItemStack.asCraftMirror(nmsitem);
-				return iret;
+				return CarYml.getItem(getCarType(), getOwner());
 			}
 
 
@@ -261,6 +229,42 @@ public class CarYml {
 	        }
 	    }
 	    }
+	public static ItemStack getItem(String car,UUID id){
+		ConfigurationSection carstats=config.getConfigurationSection(car);
+		@SuppressWarnings("deprecation")
+		ItemStack iret=new ItemStack(Material.valueOf(carstats.getString("block", "potato_item").toUpperCase()),1,(short)0,(byte)carstats.getInt("block-data",0));
+		
+		if(iret.getType().isBlock()){
+			ItemMeta meta=iret.getItemMeta();
+			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', carstats.getString("item-name",ChatColor.RED+"ERROR! Invalid or no name given!")));
+			List<String>lore=new ArrayList<>();
+			carstats.getStringList("lore").forEach((s)->lore.add(ChatColor.translateAlternateColorCodes('&',s)));
+			meta.setLore(carstats.getStringList("lore"));
+			iret.setItemMeta(meta);
+			
+			
+			
+			
+			
+			
+		}else{
+			ItemMeta meta=iret.getItemMeta();
+			meta.setDisplayName(ChatColor.RED+"FATAL ERROR: Not a Block!");
+			List<String>error=new ArrayList<>();
+			error.add("The value you have under 'block' is not a block!");
+			error.add("placing this >could< break the server! BE WARNED");
+			meta.setLore(error);
+			iret.setItemMeta(meta);
+		}
+		net.minecraft.server.v1_11_R1.ItemStack nmsitem=CraftItemStack.asNMSCopy(iret);
+		NBTTagCompound nbt=nmsitem.getTag();
+		nbt.setString("FCcar", car);
+		if(id!=null)
+		nbt.setString("FCowner", id.toString());
+		nmsitem.setTag(nbt);
+		iret=CraftItemStack.asCraftMirror(nmsitem);
+		return iret;
+	}
 	
 
 }
