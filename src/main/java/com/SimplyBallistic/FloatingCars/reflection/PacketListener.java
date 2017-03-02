@@ -104,6 +104,7 @@ public class PacketListener extends PacketAdapter {
 					if(!car.isOnGround())
 					continuesVelocity=car.getLocation().getDirection().multiply(hc.getSpeed());
 					else continuesVelocity=car.getLocation().getDirection().multiply(hc.getSpeed()/1.5);
+					if(!hc.canFly())car.setVelocity(car.getVelocity().setY(-0.5));
 					if(!FCMain.getInstance().getConfig().getBoolean("fly-lookup",false))
 					car.setVelocity(continuesVelocity/*.setY(e.getPlayer().getLocation().getDirection().getY())*/);
 					else car.setVelocity(continuesVelocity.setY(e.getPlayer().getLocation().getDirection().getY()));
@@ -113,7 +114,9 @@ public class PacketListener extends PacketAdapter {
 					if(fuel.get(hc)<=0)FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.RED+"No Fuel", 1, 1, 1);
 					else{
 					fuel.put(hc, fuel.get(hc)-1);
+					if(hc.canFly())
 					continuesVelocity=car.getLocation().getDirection().multiply(-hc.getRevSpeed());
+					else continuesVelocity=car.getLocation().getDirection().multiply(-hc.getRevSpeed()).setY(-0.5);
 					car.setVelocity(continuesVelocity);
 					}
 				}

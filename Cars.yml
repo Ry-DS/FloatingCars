@@ -10,7 +10,7 @@ default:
     rev-speed: 0.2
     # The speed the car should rise at. Ignored if car cannot fly
     space-speed: 1
-    # The speed the car should fall at. Acts as brake if car cannot fly
+    # The speed the car should fall at. Acts as jump strength if car cannot fly
     shift-speed: 1
     # The block the car should be represented as
     block: 'monster_eggs'
@@ -47,4 +47,5 @@ default:
     jump: false
     # The amount of fuel to use in order to jump
     jump-cost: 50
+    
     

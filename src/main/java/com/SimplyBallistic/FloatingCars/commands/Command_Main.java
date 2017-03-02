@@ -65,9 +65,9 @@ public class Command_Main implements TabExecutor {
 		List<String> ret=new ArrayList<>();
 		
 			for(SubCommand subc:commands){
-				if(args.length==1)
-					if(subc.getName().startsWith(args[0]))
-					ret.add(subc.getName());
+				if(args.length==1){
+					if(subc.getName().startsWith(args[0])&&sender.hasPermission(command.getPermission()+subc.getName()))
+					ret.add(subc.getName());}
 				else if(subc.getName().equalsIgnoreCase(args[0])){
 					ret=subc.onTabComplete(sender, command, alias, commandArgs);
 				break;	

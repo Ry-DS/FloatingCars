@@ -60,7 +60,7 @@ public class FCMain extends JavaPlugin {
 	public void onDisable() {
 //	cars.forEach((as)->as.getCar().remove());
 //	PacketListener.fuel.forEach((hc,i)->{PlayerData.setFuel(hc.getOwner(), hc.getCarType(), i);});
-		cars.forEach(PacketListener::deleteCar);	
+		PacketListener.deleteAll();	
 	
 	}
 	public static FCMain getInstance(){

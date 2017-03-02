@@ -35,7 +35,7 @@ public class Command_Give implements SubCommand{
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		// TODO Auto-generated method stub
 		if(args.length!=2){sender.sendMessage(ChatColor.RED+"You need to give a player and a car to give!");return true;}
-		if(Bukkit.getPlayer(args[0])==null){sender.sendMessage("That isn't a player thats online!");return true;}
+		if(Bukkit.getPlayerExact(args[0])==null){sender.sendMessage(ChatColor.RED+"That isn't a player thats online!");return true;}
 		if(!CarYml.contains(args[1])){sender.sendMessage(ChatColor.RED+"That isn't a valid car!");return true;}
 		if(PlayerData.playerOwns(Bukkit.getPlayer(args[0]).getUniqueId(), args[1])){sender.sendMessage(ChatColor.RED+args[0]+" already owns that car!");return true;}
 		PlayerData.giveCar(Bukkit.getPlayer(args[0]).getUniqueId(),args[1]);
