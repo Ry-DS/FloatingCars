@@ -258,4 +258,19 @@ public class PacketListener extends PacketAdapter {
 		
 		
 	}
+	public static void deleteAll(){
+		
+
+		for(HoverCar car:FCMain.cars){
+			if(car.getOwner()!=null)
+				PlayerData.setFuel(car.getOwner(), car.getCarType(), fuel.get(car));
+			FCMain.getInstance().getLogger().info("Car: "+car.getCarType()+" was saved and deleted succesfully");
+			if(!car.getCar().isDead())car.getCar().remove();
+			
+		
+		}
+		fuel.clear();
+		hovertime.clear();
+		FCMain.cars.clear();
+	}
 }

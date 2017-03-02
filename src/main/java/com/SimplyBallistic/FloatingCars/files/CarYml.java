@@ -55,6 +55,15 @@ public class CarYml {
 		
 		
 	}
+	public static boolean contains(String car){
+		if(!config.contains(car))return false;
+		else return true;
+	}
+	public static List<String> contents(){
+		List<String>ret=new ArrayList<>();
+		ret.addAll(config.getKeys(false));
+		return ret;
+	}
 	/**
 	 * Spawn car from config
 	 * @param car the car type to find in config. 

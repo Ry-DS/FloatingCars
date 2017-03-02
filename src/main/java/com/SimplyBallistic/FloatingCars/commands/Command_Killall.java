@@ -2,8 +2,11 @@ package com.SimplyBallistic.FloatingCars.commands;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
 
 public class Command_Killall implements SubCommand{
 
@@ -16,13 +19,17 @@ public class Command_Killall implements SubCommand{
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		// TODO Auto-generated method stub
-		return false;
+		PacketListener.deleteAll();
+		sender.sendMessage(ChatColor.GREEN+"Removed all cars");
+		
+		
+		return true;
 	}
 
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		return "killall";
 	}
 
 }
