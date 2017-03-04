@@ -1,7 +1,11 @@
 package com.SimplyBallistic.FloatingCars.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -35,7 +39,13 @@ public void fuelAddEvent(PlayerInteractEvent e){
 				
 			//e.getPlayer().getInventory().setItemInMainHand(pfuel);	
 				FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.GREEN+"Fuel added!", 5, 5, 5);
+				return;
 				}
+			}
+			if(e.getPlayer().getVehicle().getUniqueId().equals(hc.getCar().getUniqueId())&&e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.FIREBALL)){
+				Fireball fireball=(Fireball)e.getPlayer().getWorld().spawnEntity(e.getPlayer().getEyeLocation().add(0, 1, 0), EntityType.FIREBALL);
+				fireball.setVelocity(e.getPlayer().getLocation().getDirection());
+				e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInMainHand().getAmount()-1);
 			}
 		});
 		
