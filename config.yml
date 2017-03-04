@@ -1,6 +1,6 @@
 # Whether the player has to look up to go up. if false, they use space and shift instead
-fly-lookup: false
+fly-lookup: true
 # enable this to stop people from exiting the car while its in the air. Applies to flying cars only
 dismount-air: false
-# The hover height of the hover car
-hover-height: 1
+# The amount of fuel added to the car at a time when riding
+fuel-per-click: 32
