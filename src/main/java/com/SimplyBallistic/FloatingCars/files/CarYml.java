@@ -249,7 +249,7 @@ public class CarYml {
 			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', carstats.getString("item-name",ChatColor.RED+"ERROR! Invalid or no name given!")));
 			List<String>lore=new ArrayList<>();
 			carstats.getStringList("lore").forEach((s)->lore.add(ChatColor.translateAlternateColorCodes('&',s)));
-			meta.setLore(carstats.getStringList("lore"));
+			meta.setLore(lore);
 			iret.setItemMeta(meta);
 			
 			
