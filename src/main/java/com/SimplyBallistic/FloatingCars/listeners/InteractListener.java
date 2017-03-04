@@ -23,9 +23,15 @@ public void fuelAddEvent(PlayerInteractEvent e){
 					FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), "", 10, 10, 10);
 				FCMain.getZotLib().getPacketLibrary().getTitleManager().sendSubTitle(e.getPlayer(), ChatColor.RED+"Your tank is full!", 10, 10, 10);
 				}else{
-				PacketListener.fuel.put(hc, PacketListener.fuel.get(hc)+hc.getFuelTime()*FCMain.getInstance().getConfig().getInt("fuel-per-click",1));
-				ItemStack pfuel=e.getPlayer().getInventory().getItemInMainHand();
-				pfuel.setAmount(pfuel.getAmount()-FCMain.getInstance().getConfig().getInt("fuel-per-click",1));
+					int fuelclick=FCMain.getInstance().getConfig().getInt("fuel-per-click",1);
+					for(int i=0;i<fuelclick;i++){
+						ItemStack pfuel=e.getPlayer().getInventory().getItemInMainHand();
+						if(!pfuel.getType().equals(hc.getFuel())||PacketListener.fuel.get(hc)+hc.getFuelTime()>hc.getCapacity())break;
+						pfuel.setAmount(pfuel.getAmount()-1);
+						PacketListener.fuel.put(hc, PacketListener.fuel.get(hc)+hc.getFuelTime());
+					}
+				
+				
 				
 			//e.getPlayer().getInventory().setItemInMainHand(pfuel);	
 				FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.GREEN+"Fuel added!", 5, 5, 5);

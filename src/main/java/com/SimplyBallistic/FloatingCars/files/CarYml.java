@@ -26,6 +26,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.SimplyBallistic.FloatingCars.FCMain;
 import com.SimplyBallistic.FloatingCars.HoverCar;
+import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
 
 import net.minecraft.server.v1_11_R1.NBTTagCompound;
 /**
@@ -76,12 +77,21 @@ public class CarYml {
 		ArmorStand as=(ArmorStand)l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
 		HoverCar ret;
 		ConfigurationSection carstats=config.getConfigurationSection(car);
+		for(int i=0;i<FCMain.cars.size();){
+			HoverCar hs=FCMain.cars.get(i);
+			if(!hs.getCar().isDead()&&hs.getOwner().equals(owner)&&hs.getCarType().equals(car))
+				PacketListener.deleteCar(hs);
+			
+			else i++;
+		}
 		ret=new HoverCar() {
 			
 			@Override
 			public String name() {
-
-				return ChatColor.translateAlternateColorCodes('&', carstats.getString("name",ChatColor.RED+"ERROR! Invalid or no name given!")).replaceAll("%player%", Bukkit.getOfflinePlayer(owner).getName());
+				String sowner="";
+				if(owner==null)sowner="Public";
+				else sowner=Bukkit.getOfflinePlayer(owner).getName();
+				return ChatColor.translateAlternateColorCodes('&', carstats.getString("name",ChatColor.RED+"ERROR! Invalid or no name given!")).replaceAll("%player%", sowner);
 			}
 			
 			

@@ -2,6 +2,7 @@ package com.SimplyBallistic.FloatingCars.files;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -54,6 +55,7 @@ public static boolean playerOwns(UUID id,String car){
 	return config.contains(id+".cars."+car);
 }
 public static Set<String> playerOwnsList(UUID id){
+	if(!config.contains(id+".cars"))return new HashSet<>();
 	return config.getConfigurationSection(id+".cars").getKeys(false);
 }
 public static void giveCar(UUID id,String car){

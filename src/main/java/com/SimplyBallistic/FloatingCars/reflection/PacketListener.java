@@ -78,7 +78,7 @@ public class PacketListener extends PacketAdapter {
 				float forward = packet.b();
 				float side = packet.a();
 				
-				Vector continuesVelocity=car.getVelocity();
+				Vector continuesVelocity=car.getVelocity().setY(0);
 				//System.out.println("Ride packet: space:"+space+" shift:"+shift+" forward:"+forward);
 				if(space&&shift){car.setGravity(false);e.setCancelled(true);return;}
 				else car.setGravity(true);
@@ -104,10 +104,11 @@ public class PacketListener extends PacketAdapter {
 					if(!car.isOnGround())
 					continuesVelocity=car.getLocation().getDirection().multiply(hc.getSpeed());
 					else continuesVelocity=car.getLocation().getDirection().multiply(hc.getSpeed()/1.5);
-					if(!hc.canFly())car.setVelocity(car.getVelocity().setY(-0.5));
+					
 					if(!FCMain.getInstance().getConfig().getBoolean("fly-lookup",false))
-					car.setVelocity(continuesVelocity/*.setY(e.getPlayer().getLocation().getDirection().getY())*/);
+					car.setVelocity(continuesVelocity.setY(0)/*.setY(e.getPlayer().getLocation().getDirection().getY())*/);
 					else car.setVelocity(continuesVelocity.setY(e.getPlayer().getLocation().getDirection().getY()));
+					if(!hc.canFly())car.setVelocity(car.getVelocity().setY(-0.5));
 					}
 				}
 				if(forward<0){
@@ -115,7 +116,7 @@ public class PacketListener extends PacketAdapter {
 					else{
 					fuel.put(hc, fuel.get(hc)-1);
 					if(hc.canFly())
-					continuesVelocity=car.getLocation().getDirection().multiply(-hc.getRevSpeed());
+					continuesVelocity=car.getLocation().getDirection().multiply(-hc.getRevSpeed()).setY(0);
 					else continuesVelocity=car.getLocation().getDirection().multiply(-hc.getRevSpeed()).setY(-0.5);
 					car.setVelocity(continuesVelocity);
 					}
@@ -128,7 +129,7 @@ public class PacketListener extends PacketAdapter {
 				canFly:{
 				if(space){
 					
-					if(!hc.canFly()&&hc.getJump()!=null){
+					if(!hc.canFly()&&hc.getJump()!=null&&fuel.get(hc)>0){
 						if(car.isOnGround()){
 							car.setVelocity(car.getVelocity().setY(hc.getSpaceSpeed()));
 						  	fuel.put(hc, fuel.get(hc)-hc.getJump());
@@ -147,7 +148,7 @@ public class PacketListener extends PacketAdapter {
 					}	
 				}}
 				if(shift){
-					if(FCMain.getInstance().getConfig().getBoolean("fly-lookup",false)||!hc.canFly()){
+					if(hc.canFly()){
 					car.setVelocity(car.getVelocity().setY(-hc.getShiftSpeed()));
 					e.setCancelled(true);
 					
@@ -155,6 +156,7 @@ public class PacketListener extends PacketAdapter {
 					
 					}
 				if(!shift&&!space&&forward==0&&side<0){
+					if(!hc.canFly()){car.eject();e.setCancelled(true);return;}
 					if(!FCMain.getInstance().getConfig().getBoolean("dismount-air",false)){
 					if(car.isOnGround()||!car.getLocation().subtract(0, 1, 0).getBlock().getType().equals(Material.AIR)||fuel.get(hc)<=0){
 					car.eject();
@@ -171,7 +173,7 @@ public class PacketListener extends PacketAdapter {
 				if(!shift&&!space&&forward==0&&side>0){
 				e.getPlayer().openInventory(PlayerData.getPlayerInventory(e.getPlayer().getUniqueId(),hc.getCarType()));
 				}
-				if(!(fuel.get(hc)<=0)&&!hc.canFly())
+				if(!(fuel.get(hc)<=0)&&(!hc.canFly()||car.getLocation().getY()>=hc.getMaxHeight()))
 				driveOver(b, car, e.getPlayer());
 				DecimalFormat df = new DecimalFormat("#.#");
 				df.setRoundingMode(RoundingMode.CEILING);
@@ -229,7 +231,7 @@ public class PacketListener extends PacketAdapter {
 
 		}
 
-		car.setVelocity(p.getLocation().getDirection().setY(0.3));
+		car.setVelocity(car.getVelocity().setY(0.3));
 		
 		return;
  
