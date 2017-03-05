@@ -11,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.SimplyBallistic.FloatingCars.commands.Command_Main;
 import com.SimplyBallistic.FloatingCars.files.CarYml;
 import com.SimplyBallistic.FloatingCars.files.PlayerData;
-import com.SimplyBallistic.FloatingCars.listeners.DismountListener;
 import com.SimplyBallistic.FloatingCars.listeners.InteractListener;
 import com.SimplyBallistic.FloatingCars.listeners.InventorySaver;
 import com.SimplyBallistic.FloatingCars.listeners.RideListener;
@@ -48,7 +47,7 @@ public class FCMain extends JavaPlugin {
 		getServer().getPluginManager().disablePlugin(this);	
 		}
 	getServer().getPluginManager().registerEvents(new RideListener(), this);
-	getServer().getPluginManager().registerEvents(new DismountListener(), this);
+	//getServer().getPluginManager().registerEvents(new DismountListener(), this);
 	getServer().getPluginManager().registerEvents(new InventorySaver(), this);
 	getServer().getPluginManager().registerEvents(new InteractListener(), this);
 	getCommand("spacecar").setExecutor(new Command_Main());

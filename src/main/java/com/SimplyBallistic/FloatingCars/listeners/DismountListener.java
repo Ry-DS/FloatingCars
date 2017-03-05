@@ -4,9 +4,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.spigotmc.event.entity.EntityDismountEvent;
-
-import com.SimplyBallistic.FloatingCars.files.PlayerData;
-
+@Deprecated
 public class DismountListener implements Listener{
 	@EventHandler
 	public void onDismount(EntityDismountEvent e){
