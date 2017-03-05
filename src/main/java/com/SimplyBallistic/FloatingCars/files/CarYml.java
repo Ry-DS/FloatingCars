@@ -79,6 +79,8 @@ public class CarYml {
 		ConfigurationSection carstats=config.getConfigurationSection(car);
 		for(int i=0;i<FCMain.cars.size();){
 			HoverCar hs=FCMain.cars.get(i);
+			if(owner==null)break;
+			if(hs.getOwner()==null)continue;
 			if(!hs.getCar().isDead()&&hs.getOwner().equals(owner)&&hs.getCarType().equals(car))
 				PacketListener.deleteCar(hs);
 			
@@ -204,7 +206,7 @@ public class CarYml {
 		as.setVisible(false);
 		as.setHelmet(ret.getItem());
 		as.setCustomName(ret.name());
-		as.setCustomNameVisible(true);
+		as.setCustomNameVisible(false);
 		return ret;
 	}
 	public void saveConfig(){
@@ -241,7 +243,8 @@ public class CarYml {
 	    }
 	public static ItemStack getItem(String car,UUID id){
 		ConfigurationSection carstats=config.getConfigurationSection(car);
-		@SuppressWarnings("deprecation")
+		if(carstats==null){System.out.println(":(");return null;}
+		@SuppressWarnings("deprecation") 
 		ItemStack iret=new ItemStack(Material.valueOf(carstats.getString("block", "potato_item").toUpperCase()),1,(short)0,(byte)carstats.getInt("block-data",0));
 		
 		if(iret.getType().isBlock()){

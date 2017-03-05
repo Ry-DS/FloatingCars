@@ -278,4 +278,8 @@ public class PacketListener extends PacketAdapter {
 		hovertime.clear();
 		FCMain.cars.clear();
 	}
+public class hover{
+	
 }
+}
+

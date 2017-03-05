@@ -35,6 +35,7 @@ public class Command_Spawn implements SubCommand {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		// TODO Auto-generated method stub
+		if(args.length!=1){sender.sendMessage(ChatColor.RED+"Not enough/Too many args! Give a car name to spawn");return true;}
         if(sender instanceof Player){
 			
 			Player p=(Player)sender;

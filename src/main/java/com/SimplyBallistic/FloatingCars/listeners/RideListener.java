@@ -1,5 +1,6 @@
 package com.SimplyBallistic.FloatingCars.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +19,7 @@ public void onRide(PlayerInteractAtEntityEvent e){
 	for(HoverCar hc:FCMain.cars){
 		if(hc.getCar().getUniqueId().equals(e.getRightClicked().getUniqueId())){
 			if(hc.getOwner()!=null&&!e.getPlayer().getUniqueId().equals(hc.getOwner())){
-				e.getPlayer().sendMessage(ChatColor.RED+"That's not your car!");
+				e.getPlayer().sendMessage(ChatColor.RED+"That's "+Bukkit.getOfflinePlayer(hc.getOwner()).getName()+"'s car!");
 				e.setCancelled(true);
 				return;
 			}
