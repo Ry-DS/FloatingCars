@@ -80,7 +80,7 @@ public class CarYml {
 		for(int i=0;i<FCMain.cars.size();){
 			HoverCar hs=FCMain.cars.get(i);
 			if(owner==null)break;
-			if(hs.getOwner()==null)continue;
+			if(hs.getOwner()==null){i++;continue;}
 			if(!hs.getCar().isDead()&&hs.getOwner().equals(owner)&&hs.getCarType().equals(car))
 				PacketListener.deleteCar(hs);
 			
