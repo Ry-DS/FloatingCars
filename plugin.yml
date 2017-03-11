@@ -8,5 +8,5 @@ commands:
    spacecar:
       description: Spacecars
       usage: /<command> 
-      permission: fc.spacecar
+      permission: fc.commands
       aliases: [spacec,sc,spaceship,car,cars]

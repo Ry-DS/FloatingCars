@@ -18,7 +18,7 @@ import com.SimplyBallistic.FloatingCars.listeners.RideListener;
 import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
 import com.SimplyBallistic.util.StopWatch;
 
-import XZot1K.plugins.zl.ZotLib;
+import XZot1K.plugins.zb.ZotBox;
 
 public class FCMain extends JavaPlugin {
 	//TODO
@@ -28,7 +28,7 @@ public class FCMain extends JavaPlugin {
 	All da commands, killall, gui, config reload, give,
 	 */
 	private static FCMain instance;
-	private static ZotLib zotLib;
+	private static ZotBox zotLib;
 	public static List<HoverCar> cars;
 	public static Map<HoverCar,StopWatch> pcars;
 	public static String prefix="["+ChatColor.GOLD+ChatColor.ITALIC+"SpaceCars"+ChatColor.RESET+"]";
@@ -46,6 +46,7 @@ public class FCMain extends JavaPlugin {
 		if(!isZotLibInstalled()){
 			getLogger().severe("ZotLib not installed! Shutting down...");
 		getServer().getPluginManager().disablePlugin(this);	
+		return;
 		}
 	getServer().getPluginManager().registerEvents(new RideListener(), this);
 	//getServer().getPluginManager().registerEvents(new DismountListener(), this);
@@ -69,7 +70,7 @@ public class FCMain extends JavaPlugin {
 	}
 	 private boolean isZotLibInstalled()
 	    {
-	        ZotLib zotLib = (ZotLib) getServer().getPluginManager().getPlugin("ZotLib");
+	        ZotBox zotLib = (ZotBox) getServer().getPluginManager().getPlugin("ZotBox");
 	        if(zotLib != null)
 	        {
 	            setZotLib(zotLib);
@@ -78,11 +79,11 @@ public class FCMain extends JavaPlugin {
 	        return false;
 	    }
 
-	    public static ZotLib getZotLib()
+	    public static ZotBox getZotLib()
 	    {
 	        return zotLib;
 	    }
-	    private void setZotLib(ZotLib zotLib)
+	    private void setZotLib(ZotBox zotLib)
 	    {
 	        FCMain.zotLib = zotLib;
 	    }

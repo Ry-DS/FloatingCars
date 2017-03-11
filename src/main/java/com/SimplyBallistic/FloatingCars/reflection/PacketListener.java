@@ -25,13 +25,12 @@ import com.comphenix.protocol.events.PacketEvent;
 import net.minecraft.server.v1_11_R1.PacketPlayInSteerVehicle;
 
 public class PacketListener extends PacketAdapter {
-	private static HashMap<HoverCar, Integer>hovertime=new HashMap<>();
+	private static HashMap<HoverCar, hoverTime>hovertime=new HashMap<>();
 	public static HashMap<HoverCar, Integer>fuel=new HashMap<>();
 	public PacketListener(Plugin plugin) {
 		super(plugin,ListenerPriority.NORMAL, new PacketType[]{PacketType.Play.Client.STEER_VEHICLE/*,PacketType.Play.Server.CHAT*/});
 		ProtocolLibrary.getProtocolManager().addPacketListener(this);
 	}
-	private boolean hoverUp=true;
 	/*@Override
 	public void onPacketSending(PacketEvent e) {
 
@@ -178,10 +177,16 @@ public class PacketListener extends PacketAdapter {
 				DecimalFormat df = new DecimalFormat("#.#");
 				df.setRoundingMode(RoundingMode.CEILING);
 				String meter="";
-				if(hc.getFuel()!=null)
-				for(int i=0;i<Math.abs((float)fuel.get(hc)/hc.getCapacity()*100f);i++){
-					meter+="|";
+				
+				if(hc.getFuel()!=null){
+					int i=0;
+				for(i=0;i<Math.abs((float)fuel.get(hc)/hc.getCapacity()*20f);i++){
+					meter+="█";
 					
+				}
+				for(;i<20;i++){
+					meter+="░";
+				}
 				}
 				
 				/*df.format(Math.abs((float)fuel.get(hc)/hc.getCapacity()*100f))*/
@@ -238,17 +243,23 @@ public class PacketListener extends PacketAdapter {
 	}
 	private void hover(HoverCar car){
 		
-		if(hovertime.get(car) == null)hovertime.put(car, 0);
-		hovertime.put(car, hovertime.get(car)+1);
-		if(hoverUp)
+		if(hovertime.get(car) == null)hovertime.put(car, new hoverTime());
+		hovertime.get(car).advTime(1);
+		//System.out.println(hovertime.get(car));
+		if(hovertime.get(car).hoverUp)
 			car.getCar().setVelocity((car.getCar().getVelocity().setY(0.05)));
 		else car.getCar().setVelocity(car.getCar().getVelocity().setY(-0.05));
-		if(hovertime.get(car)%20==0){
-			hoverUp=!hoverUp;
-		
-		}
+		if(hovertime.get(car).time%20==0)hovertime.get(car).hoverUp=!hovertime.get(car).hoverUp;
 		
 		
+		
+		
+		
+	}
+	private class hoverTime{
+		public int time=0;
+		public boolean hoverUp=true;
+		public hoverTime advTime(int time){this.time+=time;return this;}
 		
 	}
 	public static void deleteCar(HoverCar car){

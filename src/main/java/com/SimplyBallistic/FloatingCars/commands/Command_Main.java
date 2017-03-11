@@ -7,7 +7,9 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 
 import com.SimplyBallistic.FloatingCars.FCMain;
 import com.SimplyBallistic.FloatingCars.files.CarYml;
@@ -38,12 +40,18 @@ public class Command_Main implements TabExecutor {
 			
 		}
 		String[] commandArgs = Arrays.copyOfRange(args, 1, args.length);
-
-		for(SubCommand subc:commands)
+		
+		for(SubCommand subc:commands){
+			//System.out.println(command.getPermission()+"."+subc.getName().toLowerCase());
 			if(subc.getName().equalsIgnoreCase(args[0]))
-				if(sender.hasPermission(command.getPermission()+subc.getName()))
+				if(sender instanceof ConsoleCommandSender)
 				return subc.onCommand(sender, command, label, commandArgs);
-				else sender.sendMessage(command.getPermissionMessage());
+				else {
+					Player p=(Player)sender;
+					if(p.hasPermission(command.getPermission()+"."+subc.getName().toLowerCase()))
+						return subc.onCommand(sender, command, label, commandArgs);
+				}
+				}
 			
 			sender.sendMessage(ChatColor.RED+"That isn't a valid option!");
 		
@@ -66,7 +74,7 @@ public class Command_Main implements TabExecutor {
 		
 			for(SubCommand subc:commands){
 				if(args.length==1){
-					if(subc.getName().startsWith(args[0])&&sender.hasPermission(command.getPermission()+subc.getName()))
+					if(subc.getName().startsWith(args[0])&&sender.hasPermission(command.getPermission()+"."+subc.getName()))
 					ret.add(subc.getName());}
 				else if(subc.getName().equalsIgnoreCase(args[0])){
 					ret=subc.onTabComplete(sender, command, alias, commandArgs);
