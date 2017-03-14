@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import com.SimplyBallistic.FloatingCars.files.LanguageYml;
 import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
 
 public class Command_Killall implements SubCommand{
@@ -20,7 +21,7 @@ public class Command_Killall implements SubCommand{
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		// TODO Auto-generated method stub
 		PacketListener.deleteAll();
-		sender.sendMessage(ChatColor.GREEN+"Removed all cars");
+		sender.sendMessage(LanguageYml.getAndConv("killall", ChatColor.GREEN+"Removed all cars"));
 		
 		
 		return true;

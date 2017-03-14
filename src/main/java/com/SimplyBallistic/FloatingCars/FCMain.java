@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SimplyBallistic.FloatingCars.commands.Command_Main;
 import com.SimplyBallistic.FloatingCars.files.CarYml;
+import com.SimplyBallistic.FloatingCars.files.LanguageYml;
 import com.SimplyBallistic.FloatingCars.files.PlayerData;
 import com.SimplyBallistic.FloatingCars.listeners.DamageListener;
 import com.SimplyBallistic.FloatingCars.listeners.InteractListener;
@@ -34,15 +39,17 @@ public class FCMain extends JavaPlugin {
 	public static String prefix="["+ChatColor.GOLD+ChatColor.ITALIC+"SpaceCars"+ChatColor.RESET+"]";
 	@Override
 	public void onLoad() {
+		
+	}
+	@Override
+	public void onEnable() {
 		instance=this;
 		cars=new ArrayList<HoverCar>();
 		pcars=new HashMap<>();
 		new CarYml();
 		new PlayerData();
+		new LanguageYml();
 	saveDefaultConfig();
-	}
-	@Override
-	public void onEnable() {
 		if(!isZotLibInstalled()){
 			getLogger().severe("ZotLib not installed! Shutting down...");
 		getServer().getPluginManager().disablePlugin(this);	
@@ -56,6 +63,13 @@ public class FCMain extends JavaPlugin {
 	getCommand("spacecar").setExecutor(new Command_Main());
 	//new HoverScheduler();
 	new PacketListener(getInstance());
+	for(World w:Bukkit.getWorlds())
+		for(Entity en:w.getEntities()){
+			if(en instanceof ArmorStand){
+				ArmorStand as=(ArmorStand)en;
+				if(!as.getHelmet().getType().toString().contains("HELMET"))as.remove();
+			}
+		}
 	
 	}
 	@Override

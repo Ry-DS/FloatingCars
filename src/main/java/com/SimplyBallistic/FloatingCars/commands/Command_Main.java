@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import com.SimplyBallistic.FloatingCars.FCMain;
 import com.SimplyBallistic.FloatingCars.files.CarYml;
+import com.SimplyBallistic.FloatingCars.files.LanguageYml;
 import com.SimplyBallistic.FloatingCars.files.PlayerData;
 
 public class Command_Main implements TabExecutor {
@@ -34,6 +35,7 @@ public class Command_Main implements TabExecutor {
 		if(args[0].equals("reload")){
 			new CarYml();
 			new PlayerData();
+			new LanguageYml();
 			FCMain.getInstance().reloadConfig();
 			sender.sendMessage(ChatColor.GREEN+"Reload Complete!");
 			return true;
@@ -43,6 +45,7 @@ public class Command_Main implements TabExecutor {
 		
 		for(SubCommand subc:commands){
 			//System.out.println(command.getPermission()+"."+subc.getName().toLowerCase());
+			//TODO compress this to old version
 			if(subc.getName().equalsIgnoreCase(args[0]))
 				if(sender instanceof ConsoleCommandSender)
 				return subc.onCommand(sender, command, label, commandArgs);
@@ -53,7 +56,7 @@ public class Command_Main implements TabExecutor {
 				}
 				}
 			
-			sender.sendMessage(ChatColor.RED+"That isn't a valid option!");
+			sender.sendMessage(LanguageYml.getAndConv("invalid-option", ChatColor.RED+"That isn't a valid option!"));
 		
 			
 			

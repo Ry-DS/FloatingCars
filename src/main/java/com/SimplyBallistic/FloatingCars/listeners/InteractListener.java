@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.SimplyBallistic.FloatingCars.FCMain;
+import com.SimplyBallistic.FloatingCars.files.LanguageYml;
 import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
 
 public class InteractListener implements Listener {
@@ -24,7 +25,8 @@ public void fuelAddEvent(PlayerInteractEvent e){
 					&&e.getPlayer().getInventory().getItemInMainHand().getType().equals(hc.getFuel())){
 				if(PacketListener.fuel.get(hc)+hc.getFuelTime()>hc.getCapacity()){
 					FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), "", 10, 10, 10);
-				FCMain.getZotLib().getPacketLibrary().getTitleManager().sendSubTitle(e.getPlayer(), ChatColor.RED+"Your tank is full!", 10, 10, 10);
+				FCMain.getZotLib().getPacketLibrary().getTitleManager().sendSubTitle(e.getPlayer(), 
+						LanguageYml.getAndConv("tank-full-short", ChatColor.RED+"Your tank is full!"), 10, 10, 10);
 				}else{
 					int fuelclick=FCMain.getInstance().getConfig().getInt("fuel-per-click",1);
 					for(int i=0;i<fuelclick;i++){
@@ -37,7 +39,8 @@ public void fuelAddEvent(PlayerInteractEvent e){
 				
 				
 			//e.getPlayer().getInventory().setItemInMainHand(pfuel);	
-				FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.GREEN+"Fuel added!", 5, 5, 5);
+				FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), 
+						LanguageYml.getAndConv("add-fuel", ChatColor.GREEN+"Fuel added!"), 5, 5, 5);
 				return;
 				}
 			}

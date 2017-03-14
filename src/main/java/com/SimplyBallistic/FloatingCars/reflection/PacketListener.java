@@ -15,6 +15,7 @@ import org.bukkit.util.Vector;
 
 import com.SimplyBallistic.FloatingCars.FCMain;
 import com.SimplyBallistic.FloatingCars.HoverCar;
+import com.SimplyBallistic.FloatingCars.files.LanguageYml;
 import com.SimplyBallistic.FloatingCars.files.PlayerData;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -97,7 +98,8 @@ public class PacketListener extends PacketAdapter {
 				if(forward>0){
 					//System.out.println("ForwUp Triggered");
 					//car.setVelocity(MovmentScheduler.genForwUpVec(car.getLocation()));
-					if(fuel.get(hc)<=0)FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.RED+"No Fuel", 1, 1, 1);
+					if(fuel.get(hc)<=0)FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), 
+							LanguageYml.getAndConv("no-fuel", ChatColor.RED+"No Fuel"), 1, 1, 1);
 					else {
 					fuel.put(hc, fuel.get(hc)-1);
 					if(!car.isOnGround())
@@ -111,7 +113,8 @@ public class PacketListener extends PacketAdapter {
 					}
 				}
 				if(forward<0){
-					if(fuel.get(hc)<=0)FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.RED+"No Fuel", 1, 1, 1);
+					if(fuel.get(hc)<=0)FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), 
+							LanguageYml.getAndConv("no-fuel", ChatColor.RED+"No Fuel"), 1, 1, 1);
 					else{
 					fuel.put(hc, fuel.get(hc)-1);
 					if(hc.canFly())
@@ -137,7 +140,8 @@ public class PacketListener extends PacketAdapter {
 					}
 					if(FCMain.getInstance().getConfig().getBoolean("fly-lookup",false))
 						break canFly;
-					if(fuel.get(hc)<=0)FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.RED+"No Fuel", 1, 1, 1);
+					if(fuel.get(hc)<=0)FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(),
+							LanguageYml.getAndConv("no-fuel", ChatColor.RED+"No Fuel"), 1, 1, 1);
 					else{
 					fuel.put(hc, fuel.get(hc)-1);
 					if(car.getLocation().getY()>hc.getMaxHeight())
@@ -161,8 +165,10 @@ public class PacketListener extends PacketAdapter {
 					car.eject();
 					car.setGravity(true);}
 					else{
-						FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), ChatColor.RED+"Land First!", 20, 10, 20);
-						FCMain.getZotLib().getPacketLibrary().getTitleManager().sendSubTitle(e.getPlayer(), ChatColor.GREEN+"Land if you wish to dismount", 20, 20, 20);
+						FCMain.getZotLib().getPacketLibrary().getTitleManager().sendTitle(e.getPlayer(), 
+								LanguageYml.getAndConv("dismount-in-air-short", ChatColor.RED+"Land First!"), 20, 10, 20);
+						FCMain.getZotLib().getPacketLibrary().getTitleManager().sendSubTitle(e.getPlayer(), 
+								LanguageYml.getAndConv("dismount-in-air-long", ChatColor.GREEN+"Land if you wish to dismount"), 20, 20, 20);
 					
 					}}else{
 						car.eject();
@@ -181,16 +187,17 @@ public class PacketListener extends PacketAdapter {
 				if(hc.getFuel()!=null){
 					int i=0;
 				for(i=0;i<Math.abs((float)fuel.get(hc)/hc.getCapacity()*20f);i++){
-					meter+="█";
+					meter+=LanguageYml.getAndConv("fuel-fill", "█");
 					
 				}
 				for(;i<20;i++){
-					meter+="░";
+					meter+=LanguageYml.getAndConv("fuel-empty", "░");
 				}
 				}
 				
 				/*df.format(Math.abs((float)fuel.get(hc)/hc.getCapacity()*100f))*/
-				FCMain.getZotLib().getPacketLibrary().getActionBarManager().sendActionbar(e.getPlayer(), ChatColor.GOLD+"Fuel: "+ChatColor.YELLOW+meter);
+				FCMain.getZotLib().getPacketLibrary().getActionBarManager().sendActionbar(e.getPlayer(), 
+						LanguageYml.getAndConv("fuel-prefix", ChatColor.GOLD+"Fuel: "+ChatColor.YELLOW)+meter);
 				//car.setVelocity(car.getLocation().getDirection().setY(e.getPlayer().getLocation().getDirection().getY()));
 
 			
@@ -259,7 +266,7 @@ public class PacketListener extends PacketAdapter {
 	private class hoverTime{
 		public int time=0;
 		public boolean hoverUp=true;
-		public hoverTime advTime(int time){this.time+=time;return this;}
+		public hoverTime advTime(int time){this.time+=time; if(time>=100)time=0;return this;}
 		
 	}
 	public static void deleteCar(HoverCar car){
@@ -289,8 +296,6 @@ public class PacketListener extends PacketAdapter {
 		hovertime.clear();
 		FCMain.cars.clear();
 	}
-public class hover{
-	
-}
+
 }
 
