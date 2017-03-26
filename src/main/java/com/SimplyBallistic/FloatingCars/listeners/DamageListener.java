@@ -10,9 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 public class DamageListener implements Listener {
 @EventHandler
 public void onFall(EntityDamageEvent e){
-	if(!(e.getEntity() instanceof Player))return;
-	Player player=(Player)e.getEntity();
-	if(!(player.getVehicle() instanceof ArmorStand))return;
+	if(!(e.getEntity() instanceof Player)||!(e.getEntity().getVehicle() instanceof ArmorStand))return;	
 	if(e.getCause()==DamageCause.FALL)e.setCancelled(true);
 	
 	

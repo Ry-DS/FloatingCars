@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.SimplyBallistic.FloatingCars.FCMain;
 import com.SimplyBallistic.FloatingCars.files.CarYml;
+import com.SimplyBallistic.FloatingCars.files.LanguageYml;
 import com.SimplyBallistic.FloatingCars.files.PlayerData;
 import com.SimplyBallistic.util.IconMenu;
 
@@ -25,7 +26,7 @@ public class Command_Garage implements SubCommand {
 		// TODO Auto-generated method stub
 		if(!(sender instanceof Player)){sender.sendMessage("You need to be a Player!");return true;}
 		Player p=(Player)sender;
-		IconMenu menu=new IconMenu(ChatColor.GOLD+"Garage: "+ChatColor.YELLOW+p.getName(), 18, event->{
+		IconMenu menu=new IconMenu(ChatColor.GOLD+LanguageYml.getAndConv("garage-name", "Garage: "+ChatColor.YELLOW+p.getName()).replaceAll("%player%", p.getName()), 18, event->{
 			
 			event.setWillDestroy(true);
 			event.setWillClose(true);
