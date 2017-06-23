@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="ZotLib">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/server/plugins/ZotLib.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Desktop/server/plugins/ZotLib.jar!/docs" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

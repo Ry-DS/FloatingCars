@@ -1,8 +1,11 @@
+# /spacec garage: view player garage
+# /spacec give <player> <car>: add a car to a player's garage
+# /spacec spawn <car>: spawn a public car
+# /spacec killall: kills all players 
+# all perms are fc.spacecar.<command>
 # Whether the player has to look up to go up. if false, they use space and shift instead
-fly-lookup: false
+fly-lookup: true
 # enable this to stop people from exiting the car while its in the air. Applies to flying cars only
 dismount-air: false
-# The hover height of the hover car
-hover-height: 1
-# The amount of fuel to add at a time while flying
-fuel-per-click: 10
+# The amount of fuel added to the car at a time when riding
+fuel-per-click: 32

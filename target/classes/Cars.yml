@@ -1,0 +1,51 @@
+# Create custom cars here
+##
+##
+# This should be the car name. This is the deciding factor of what command to enter to 
+# spawn this car
+default:
+    # The speed the car should go at in blocks per tick
+    speed: 0.5
+    # The speed the car should reverse at
+    rev-speed: 0.2
+    # The speed the car should rise at. Ignored if car cannot fly
+    space-speed: 1
+    # The speed the car should fall at. Acts as jump strength if car cannot fly
+    shift-speed: 1
+    # The block the car should be represented as
+    block: 'monster_eggs'
+    # The data the block needs. 0 is default. This could represent color of wool,
+    # the type of monster_egg and many more
+    block-data: 2
+    # Whether this car flys
+    flys: true
+    # Whether this car has an inventory
+    hasInv: true
+    # Name the car shall be called. nametag 
+    name: '&1The car of %player%'
+    # Name the car shall be called. item 
+    item-name: '&1Default Car'
+    # The lore to apply to the item
+    lore:
+    - '---------------------------------------'
+    - '&a A neat little car to be on your way'
+    - '---------------------------------------'
+    # What to be used as fuel
+    fuel: 'coal'
+    # How many move requests (pressing any button) before another fuel is needed
+    # No fuel is consumed if the player simply does nothing. MUST NOT BE A DECIMAL NUMBER
+    fuel-time: 100
+    
+    # Whether this car is public and can be ridden by anyone
+    public: true
+    # The max height this car can go to on the y axis
+    max-height: 100
+    # The max fuel this car can hold. Do fuel-cap/fuel-time to get the amount of fuel needed 
+    # for a full tank!
+    fuel-cap: 1000
+    # Whether this car can jump. This only applies if the car cannot fly
+    jump: false
+    # The amount of fuel to use in order to jump
+    jump-cost: 50
+    
+    
