@@ -32,7 +32,7 @@ import net.minecraft.server.v1_11_R1.PacketPlayInSteerVehicle;
 public class PacketListener extends PacketAdapter {
 	private static HashMap<HoverCar, hoverTime>hovertime=new HashMap<>();
 	public static HashMap<HoverCar, Integer>fuel=new HashMap<>();
-    private Material[] noSkip={Material.RED_ROSE,Material.GRASS,Material.DOUBLE_PLANT,Material.SUGAR_CANE_BLOCK,Material.BROWN_MUSHROOM,
+    private Material[] noSkip={Material.RED_ROSE,Material.DOUBLE_PLANT,Material.SUGAR_CANE_BLOCK,Material.BROWN_MUSHROOM,
             Material.RED_MUSHROOM,Material.YELLOW_FLOWER};
 	public PacketListener(Plugin plugin) {
 		super(plugin,ListenerPriority.NORMAL, PacketType.Play.Client.STEER_VEHICLE/*,PacketType.Play.Server.CHAT*/);
@@ -72,6 +72,7 @@ public class PacketListener extends PacketAdapter {
 					
 					
 						hover(hc);
+						car.setHeadPose(new EulerAngle(0,0,0));
 					
 				
 				}
@@ -130,14 +131,14 @@ public class PacketListener extends PacketAdapter {
 						car.setVelocity(car.getVelocity());
 					else{
 					car.setVelocity(car.getVelocity().setY(hc.getSpaceSpeed()));
-					car.setHeadPose(new EulerAngle(45,0,0));
+					car.setHeadPose(new EulerAngle(Math.toRadians(-25),0,0));
 					}
 					}	
 				}}
 				if(shift){
 					if(hc.canFly()){
 					car.setVelocity(car.getVelocity().setY(-hc.getShiftSpeed()));
-						car.setHeadPose(new EulerAngle(45,0,0));
+						car.setHeadPose(new EulerAngle(Math.toRadians(25),0,0));
 					e.setCancelled(true);
 					
 					}else return;

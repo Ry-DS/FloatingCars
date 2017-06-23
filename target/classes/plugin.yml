@@ -3,10 +3,10 @@ main: com.SimplyBallistic.FloatingCars.FCMain
 version: 1.01
 description:  Cars...that hover!
 author: xBallisticBlazex
-softdepend: [ZotLib]
+softdepend: [ZotBox,ZotLib]
 commands:
    spacecar:
       description: Spacecars
       usage: /<command> 
-      permission: fc.spacecar
-      aliases: [spacec,spaceship,car,cars]
+      permission: fc.commands
+      aliases: [spacec,sc,spaceship,car,cars]
