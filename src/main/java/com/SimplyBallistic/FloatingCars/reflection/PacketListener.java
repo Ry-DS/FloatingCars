@@ -2,7 +2,10 @@ package com.SimplyBallistic.FloatingCars.reflection;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,6 +14,7 @@ import org.bukkit.craftbukkit.v1_11_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import com.SimplyBallistic.FloatingCars.FCMain;
@@ -28,35 +32,13 @@ import net.minecraft.server.v1_11_R1.PacketPlayInSteerVehicle;
 public class PacketListener extends PacketAdapter {
 	private static HashMap<HoverCar, hoverTime>hovertime=new HashMap<>();
 	public static HashMap<HoverCar, Integer>fuel=new HashMap<>();
+    private Material[] noSkip={Material.RED_ROSE,Material.GRASS,Material.DOUBLE_PLANT,Material.SUGAR_CANE_BLOCK,Material.BROWN_MUSHROOM,
+            Material.RED_MUSHROOM,Material.YELLOW_FLOWER};
 	public PacketListener(Plugin plugin) {
-		super(plugin,ListenerPriority.NORMAL, new PacketType[]{PacketType.Play.Client.STEER_VEHICLE/*,PacketType.Play.Server.CHAT*/});
+		super(plugin,ListenerPriority.NORMAL, PacketType.Play.Client.STEER_VEHICLE/*,PacketType.Play.Server.CHAT*/);
 		ProtocolLibrary.getProtocolManager().addPacketListener(this);
-	}
-	/*@Override
-	public void onPacketSending(PacketEvent e) {
 
-		if(e.getPacketType().equals(PacketType.Play.Server.CHAT)){
-			System.out.println("CALLED");
-			PacketPlayOutChat packet=(PacketPlayOutChat)e.getPacket().getHandle();
-			try {
-				Field mess=packet.getClass().getDeclaredField("a");
-				Field dat=packet.getClass().getDeclaredField("b");
-				mess.setAccessible(true);
-				dat.setAccessible(true);
-				IChatBaseComponent cmess=(IChatBaseComponent)mess.get(packet);
-				if(dat.getByte(packet)==2&&cmess.getText().contains("LSHIFT")){e.setCancelled(true);}
-				
-			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e1) {
-				e1.printStackTrace();
-			}
-			
-			
-			
-		}	
-		
-		
-	}
-	*/
+    }
 	@Override
 	public void onPacketReceiving(PacketEvent e){
 		for(HoverCar hc:FCMain.cars){
@@ -146,13 +128,16 @@ public class PacketListener extends PacketAdapter {
 					fuel.put(hc, fuel.get(hc)-1);
 					if(car.getLocation().getY()>hc.getMaxHeight())
 						car.setVelocity(car.getVelocity());
-					else
+					else{
 					car.setVelocity(car.getVelocity().setY(hc.getSpaceSpeed()));
+					car.setHeadPose(new EulerAngle(45,0,0));
+					}
 					}	
 				}}
 				if(shift){
 					if(hc.canFly()){
 					car.setVelocity(car.getVelocity().setY(-hc.getShiftSpeed()));
+						car.setHeadPose(new EulerAngle(45,0,0));
 					e.setCancelled(true);
 					
 					}else return;
@@ -206,53 +191,41 @@ public class PacketListener extends PacketAdapter {
 		
 		
 		}
-	@SuppressWarnings("deprecation")
 	private void driveOver(Block b,ArmorStand car,Player p){
+	    Material air=Material.AIR;
 		// CHECK X AXIS
-					if ((b.getRelative(1, 1, 0).getTypeId() == 0 && b.getRelative(1, 0, 0).getTypeId() != 0)) {
+					if ((b.getRelative(1, 1, 0).getType() == air && b.getRelative(1, 0, 0).getType() != air)) {
 						getRelative(p, b, 1, 0, car);
 					}
 					// CHECK -X AXIS
-					if ((b.getRelative(-1, 1, 0).getTypeId() == 0 && b.getRelative(-1, 0, 0).getTypeId() != 0)) {
+					if ((b.getRelative(-1, 1, 0).getType() == air && b.getRelative(-1, 0, 0).getType() != air)) {
 						getRelative(p, b, -1, 0, car);
 					}
 					// CHECK Z AXIS
-					if ((b.getRelative(0, 1, 1).getTypeId() == 0 && b.getRelative(0, 0, 1).getTypeId() != 0)) {
+					if ((b.getRelative(0, 1, 1).getType() == air && b.getRelative(0, 0, 1).getType() != air)) {
 						getRelative(p, b, 0, 1, car);
 					}
 					// CHECK -Z AXIS
-					if ((b.getRelative(0, 1, -1).getTypeId() == 0 && b.getRelative(0, 0, -1).getTypeId() != 0)) {
+					if ((b.getRelative(0, 1, -1).getType() == air && b.getRelative(0, 0, -1).getType() != air)) {
 						getRelative(p, b, 0, -1, car);
 					}
 		
 	}
-	@SuppressWarnings("deprecation")
+
 	private void getRelative(Player p, Block b, int X, int Z, ArmorStand car) {
-		if (b.getRelative(X, 1, Z).getTypeId() == 38 || b.getRelative(X, 1, Z).getTypeId() == 31
-				|| b.getRelative(X, 1, Z).getTypeId() == 175
-				|| b.getRelative(X, 1, Z).getType().equals(Material.SUGAR_CANE_BLOCK)
-				|| b.getRelative(X, 1, Z).getTypeId() == 39 || b.getRelative(X, 1, Z).getTypeId() == 40
-				|| b.getRelative(X, 1, Z).getTypeId() == 37 ||
 
-				b.getRelative(X, 0, Z).getTypeId() == 38 || b.getRelative(X, 0, Z).getTypeId() == 31
-				|| b.getRelative(X, 0, Z).getTypeId() == 175
-				|| b.getRelative(X, 0, Z).getType().equals(Material.SUGAR_CANE_BLOCK)
-				|| b.getRelative(X, 0, Z).getTypeId() == 39 || b.getRelative(X, 0, Z).getTypeId() == 37
-				|| b.getRelative(X, 0, Z).getTypeId() == 40) {
-			return;
-
-		}
+        for (Material material : noSkip)
+            if (material.equals(b.getRelative(X, 1, Z).getType()) || material.equals(b.getRelative(X, 0, Z).getType()))
+                return;
 
 		car.setVelocity(car.getVelocity().setY(0.3));
-		
-		return;
- 
-	}
+
+
+    }
 	private void hover(HoverCar car){
-		
-		if(hovertime.get(car) == null)hovertime.put(car, new hoverTime());
+
+        hovertime.computeIfAbsent(car, k -> new hoverTime());
 		hovertime.get(car).advTime(1);
-		//System.out.println(hovertime.get(car));
 		if(hovertime.get(car).hoverUp)
 			car.getCar().setVelocity((car.getCar().getVelocity().setY(0.05)));
 		else car.getCar().setVelocity(car.getCar().getVelocity().setY(-0.05));

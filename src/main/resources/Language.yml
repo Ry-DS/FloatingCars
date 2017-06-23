@@ -1,0 +1,33 @@
+# Comment out what you want to use. If they are left commented, the defaults will be used.
+
+
+# no-fuel: "No fuel"
+
+# dismount-in-air-long: "Land before your dismount!"
+
+# dismount-in-air-short: "Land First!"
+
+# tank-full-short: "Your tank is full"
+
+# tank-full-long: "You don't have enough space for any more fuel!"
+
+# add-fuel: "Fuel added"
+
+# killall: "Removed all cars"
+
+# invalid-option: "That isn't an option!"
+
+# no-inv: "This car has no inventory!"
+
+# intct-stranger-car: "That's %player%'s car!"
+
+# fuel-prefix: "Fuel: &a"
+
+# fuel-fill: "¦"
+
+# fuel-empty: "&1¦"
+
+# garage-name: "Garage %player%"
+
+
+
