@@ -32,7 +32,7 @@ import net.minecraft.server.v1_11_R1.PacketPlayInSteerVehicle;
 public class PacketListener extends PacketAdapter {
 	private static HashMap<HoverCar, hoverTime>hovertime=new HashMap<>();
 	public static HashMap<HoverCar, Integer>fuel=new HashMap<>();
-    private Material[] noSkip={Material.RED_ROSE,Material.DOUBLE_PLANT,Material.SUGAR_CANE_BLOCK,Material.BROWN_MUSHROOM,
+    private Material[] noSkip={Material.RED_ROSE,Material.SUGAR_CANE_BLOCK,Material.BROWN_MUSHROOM,
             Material.RED_MUSHROOM,Material.YELLOW_FLOWER};
 	public PacketListener(Plugin plugin) {
 		super(plugin,ListenerPriority.NORMAL, PacketType.Play.Client.STEER_VEHICLE/*,PacketType.Play.Server.CHAT*/);
@@ -67,7 +67,7 @@ public class PacketListener extends PacketAdapter {
 				CraftArmorStand handle=(CraftArmorStand) car;
 				handle.getHandle().yaw =e.getPlayer().getLocation().getYaw();
 				
-				if(((!space&&!shift&&forward==0)||space&&shift)&&fuel.get(hc)>0){
+				if(((!space&&!shift&&forward==0)||(space&&shift))&&fuel.get(hc)>0){
 					
 					
 					
