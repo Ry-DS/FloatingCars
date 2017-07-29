@@ -1,22 +1,5 @@
 package com.SimplyBallistic.FloatingCars.reflection;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftArmorStand;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.util.EulerAngle;
-import org.bukkit.util.Vector;
-
 import com.SimplyBallistic.FloatingCars.FCMain;
 import com.SimplyBallistic.FloatingCars.HoverCar;
 import com.SimplyBallistic.FloatingCars.files.LanguageYml;
@@ -26,8 +9,21 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import net.minecraft.server.v1_12_R1.PacketPlayInSteerVehicle;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.util.EulerAngle;
+import org.bukkit.util.Vector;
 
-import net.minecraft.server.v1_11_R1.PacketPlayInSteerVehicle;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+
 
 public class PacketListener extends PacketAdapter {
 	private static HashMap<HoverCar, hoverTime>hovertime=new HashMap<>();
@@ -37,6 +33,7 @@ public class PacketListener extends PacketAdapter {
 	public PacketListener(Plugin plugin) {
 		super(plugin,ListenerPriority.NORMAL, PacketType.Play.Client.STEER_VEHICLE/*,PacketType.Play.Server.CHAT*/);
 		ProtocolLibrary.getProtocolManager().addPacketListener(this);
+
 
     }
 	@Override
@@ -92,7 +89,13 @@ public class PacketListener extends PacketAdapter {
 					if(!FCMain.getInstance().getConfig().getBoolean("fly-lookup",false))
 					car.setVelocity(continuesVelocity.setY(0)/*.setY(e.getPlayer().getLocation().getDirection().getY())*/);
 					else car.setVelocity(continuesVelocity.setY(e.getPlayer().getLocation().getDirection().getY()));
-					if(!hc.canFly())car.setVelocity(car.getVelocity().setY(-0.5));
+
+					if((car.getLocation().getBlock().getRelative(0,-2,0).getType().equals(Material.WATER)
+					||car.getLocation().getBlock().getRelative(0,-1,0).getType().equals(Material.WATER)
+							||car.getLocation().getBlock().getType().equals(Material.WATER))
+
+					&&hc.canHoverWater())car.setVelocity(car.getVelocity().setY(0));
+					else if(!hc.canFly())car.setVelocity(car.getVelocity().setY(-0.5));
 					}
 				}
 				if(forward<0){

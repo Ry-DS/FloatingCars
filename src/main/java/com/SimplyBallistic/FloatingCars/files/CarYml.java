@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.Inventory;
@@ -28,7 +29,6 @@ import com.SimplyBallistic.FloatingCars.FCMain;
 import com.SimplyBallistic.FloatingCars.HoverCar;
 import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
 
-import net.minecraft.server.v1_11_R1.NBTTagCompound;
 /**
  * Config for custom cars. Make new instance to reload config
  * @author ryan9
@@ -136,7 +136,10 @@ public class CarYml {
 				return carstats.getBoolean("flys",true);
 			}
 
-
+			@Override
+			public boolean canHoverWater() {
+				return carstats.getBoolean("hovers-water",true);
+			}
 
 			@Override
 			public UUID getOwner() {
@@ -269,7 +272,7 @@ public class CarYml {
 			meta.setLore(error);
 			iret.setItemMeta(meta);
 		}
-		net.minecraft.server.v1_11_R1.ItemStack nmsitem=CraftItemStack.asNMSCopy(iret);
+		net.minecraft.server.v1_12_R1.ItemStack nmsitem= CraftItemStack.asNMSCopy(iret);
 		NBTTagCompound nbt=nmsitem.getTag();
 		nbt.setString("FCcar", car);
 		if(id!=null)

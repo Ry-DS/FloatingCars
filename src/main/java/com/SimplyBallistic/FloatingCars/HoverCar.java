@@ -18,29 +18,30 @@ public interface HoverCar {
 	 *//*
 	public Inventory getInventory;
 	*/
-	public ArmorStand getCar();
-	public double getSpeed();
-	public double getSpaceSpeed();
-	public double getShiftSpeed();
-	public double getRevSpeed();
-	public String getCarType();
+	ArmorStand getCar();
+	double getSpeed();
+	double getSpaceSpeed();
+	double getShiftSpeed();
+	double getRevSpeed();
+	String getCarType();
 	/**
 	 * Returns null if public
 	 * @return
 	 */
-	public UUID getOwner();
-	public ItemStack getItem();
+	UUID getOwner();
+	ItemStack getItem();
 		  
-	public boolean canFly();
-	public Inventory getInventory();
-	public String name();
-	public Material getFuel();
-	public int getCapacity();
-	public int getFuelTime();
-	public double getMaxHeight();
+	boolean canFly();
+	Inventory getInventory();
+	String name();
+	Material getFuel();
+	int getCapacity();
+	int getFuelTime();
+	double getMaxHeight();
+	boolean canHoverWater();
 	/**
 	 * 
 	 * @return null if the car cannot jumpl, value with strength if can
 	 */
-   public Integer getJump();
+	Integer getJump();
 }

@@ -47,5 +47,7 @@ default:
     jump: false
     # The amount of fuel to use in order to jump
     jump-cost: 50
+    # If the car can hover ove the water instead of sinking like the titanic. Ignored if the car can fly
+    hovers-water: true
     
     
