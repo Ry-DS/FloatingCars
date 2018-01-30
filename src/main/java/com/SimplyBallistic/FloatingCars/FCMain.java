@@ -1,17 +1,5 @@
 package com.SimplyBallistic.FloatingCars;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.SimplyBallistic.FloatingCars.commands.Command_Main;
 import com.SimplyBallistic.FloatingCars.files.CarYml;
 import com.SimplyBallistic.FloatingCars.files.LanguageYml;
@@ -22,8 +10,17 @@ import com.SimplyBallistic.FloatingCars.listeners.InventorySaver;
 import com.SimplyBallistic.FloatingCars.listeners.RideListener;
 import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
 import com.SimplyBallistic.util.StopWatch;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import XZot1K.plugins.zb.ZotBox;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FCMain extends JavaPlugin {
 	//TODO
@@ -33,10 +30,9 @@ public class FCMain extends JavaPlugin {
 	All da commands, killall, gui, config reload, give,
 	 */
 	private static FCMain instance;
-	private static ZotBox zotLib;
 	public static List<HoverCar> cars;
 	public static Map<HoverCar,StopWatch> pcars;
-	public static String prefix="["+ChatColor.GOLD+ChatColor.ITALIC+"SpaceCars"+ChatColor.RESET+"]";
+	public static final String PREFIX = "[" + ChatColor.GOLD + ChatColor.ITALIC + "SpaceCars" + ChatColor.RESET + "]";
 	@Override
 	public void onLoad() {
 		
@@ -44,17 +40,12 @@ public class FCMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance=this;
-		cars=new ArrayList<HoverCar>();
+		cars = new ArrayList<>();
 		pcars=new HashMap<>();
 		new CarYml();
 		new PlayerData();
 		new LanguageYml();
 	saveDefaultConfig();
-		if(!isZotLibInstalled()){
-			getLogger().severe("ZotLib not installed! Shutting down...");
-		getServer().getPluginManager().disablePlugin(this);	
-		return;
-		}
 	getServer().getPluginManager().registerEvents(new RideListener(), this);
 	//getServer().getPluginManager().registerEvents(new DismountListener(), this);
 	getServer().getPluginManager().registerEvents(new InventorySaver(), this);
@@ -63,13 +54,22 @@ public class FCMain extends JavaPlugin {
 	getCommand("spacecar").setExecutor(new Command_Main());
 	//new HoverScheduler();
 	new PacketListener(getInstance());
-	for(World w:Bukkit.getWorlds())
-		for(Entity en:w.getEntities()){
-			if(en instanceof ArmorStand){
-				ArmorStand as=(ArmorStand)en;
-				if(!as.getHelmet().getType().toString().contains("HELMET"))as.remove();
-			}
-		}
+		Bukkit.getScheduler().runTaskLater(this, () -> {
+			getLogger().info("Started World Cleanup");
+			int i = 0;
+			for (World w : Bukkit.getWorlds())
+				for (Entity en : w.getEntities()) {
+					if (en instanceof ArmorStand) {
+						ArmorStand as = (ArmorStand) en;
+						if (!as.getHelmet().getType().toString().contains("HELMET")) {
+							i++;
+							as.remove();
+						}
+					}
+				}
+			getLogger().info("Cleaned Up " + i + " rogue cars!");
+		}, 100);
+
 	
 	}
 	@Override
@@ -82,23 +82,4 @@ public class FCMain extends JavaPlugin {
 	public static FCMain getInstance(){
 		return instance;
 	}
-	 private boolean isZotLibInstalled()
-	    {
-	        ZotBox zotLib = (ZotBox) getServer().getPluginManager().getPlugin("ZotBox");
-	        if(zotLib != null)
-	        {
-	            setZotLib(zotLib);
-	            return true;
-	        }
-	        return false;
-	    }
-
-	    public static ZotBox getZotLib()
-	    {
-	        return zotLib;
-	    }
-	    private void setZotLib(ZotBox zotLib)
-	    {
-	        FCMain.zotLib = zotLib;
-	    }
 }
