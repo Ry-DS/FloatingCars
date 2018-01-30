@@ -1,6 +1,6 @@
 name: FloatingCars
 main: com.SimplyBallistic.FloatingCars.FCMain
-version: 1.01
+version: 1.02
 description:  Cars...that hover!
 author: xBallisticBlazex
 softdepend: [ZotBox,ZotLib]
