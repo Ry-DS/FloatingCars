@@ -1,16 +1,8 @@
 package com.SimplyBallistic.FloatingCars.files;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
+import com.SimplyBallistic.FloatingCars.FCMain;
+import com.SimplyBallistic.FloatingCars.HoverCar;
+import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,9 +17,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.SimplyBallistic.FloatingCars.FCMain;
-import com.SimplyBallistic.FloatingCars.HoverCar;
-import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Config for custom cars. Make new instance to reload config
@@ -57,8 +56,7 @@ public class CarYml {
 		
 	}
 	public static boolean contains(String car){
-		if(!config.contains(car))return false;
-		else return true;
+        return config.contains(car);
 	}
 	public static List<String> contents(){
 		List<String>ret=new ArrayList<>();
@@ -73,19 +71,23 @@ public class CarYml {
 	 * @return The hovercar created
 	 */
 	public static HoverCar spawnCar(String car,Location l,UUID owner){
-		if(!config.contains(car))return null;
-		ArmorStand as=(ArmorStand)l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
-		HoverCar ret;
-		ConfigurationSection carstats=config.getConfigurationSection(car);
+
 		for(int i=0;i<FCMain.cars.size();){
 			HoverCar hs=FCMain.cars.get(i);
 			if(owner==null)break;
 			if(hs.getOwner()==null){i++;continue;}
-			if(!hs.getCar().isDead()&&hs.getOwner().equals(owner)&&hs.getCarType().equals(car))
+            if (hs.getOwner().equals(owner) && (car == null || hs.getCarType().equals(car)))
 				PacketListener.deleteCar(hs);
-			
-			else i++;
+
+
+            else i++;
 		}
+        if (car == null || l == null)
+            return null;
+        if (!config.contains(car)) return null;
+        ArmorStand as = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
+        HoverCar ret;
+        ConfigurationSection carstats = config.getConfigurationSection(car);
 		ret=new HoverCar() {
 			
 			@Override

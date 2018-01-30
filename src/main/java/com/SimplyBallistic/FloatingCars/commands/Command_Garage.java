@@ -1,17 +1,16 @@
 package com.SimplyBallistic.FloatingCars.commands;
 
-import java.util.List;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.SimplyBallistic.FloatingCars.FCMain;
 import com.SimplyBallistic.FloatingCars.files.CarYml;
 import com.SimplyBallistic.FloatingCars.files.LanguageYml;
 import com.SimplyBallistic.FloatingCars.files.PlayerData;
 import com.SimplyBallistic.util.IconMenu;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class Command_Garage implements SubCommand {
 
@@ -30,7 +29,7 @@ public class Command_Garage implements SubCommand {
 			
 			event.setWillDestroy(true);
 			event.setWillClose(true);
-			CarYml.spawnCar(event.getName(), event.getPlayer().getLocation(), event.getPlayer().getUniqueId());
+            CarYml.spawnCar(event.getName(), p.getLocation(), p.getUniqueId());
 		}, FCMain.getInstance());
 		int i=0;
 		for(String s:PlayerData.playerOwnsList( p.getUniqueId() )){

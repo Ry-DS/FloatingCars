@@ -9,20 +9,21 @@ import com.SimplyBallistic.FloatingCars.listeners.InteractListener;
 import com.SimplyBallistic.FloatingCars.listeners.InventorySaver;
 import com.SimplyBallistic.FloatingCars.listeners.RideListener;
 import com.SimplyBallistic.FloatingCars.reflection.PacketListener;
-import com.SimplyBallistic.util.StopWatch;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class FCMain extends JavaPlugin {
+public class FCMain extends JavaPlugin implements Listener {
 	//TODO
 	/*
 	Make option public cars dont need fuel, configurable
@@ -31,7 +32,6 @@ public class FCMain extends JavaPlugin {
 	 */
 	private static FCMain instance;
 	public static List<HoverCar> cars;
-	public static Map<HoverCar,StopWatch> pcars;
 	public static final String PREFIX = "[" + ChatColor.GOLD + ChatColor.ITALIC + "SpaceCars" + ChatColor.RESET + "]";
 	@Override
 	public void onLoad() {
@@ -41,7 +41,7 @@ public class FCMain extends JavaPlugin {
 	public void onEnable() {
 		instance=this;
 		cars = new ArrayList<>();
-		pcars=new HashMap<>();
+        Bukkit.getPluginManager().registerEvents(this, this);
 		new CarYml();
 		new PlayerData();
 		new LanguageYml();
@@ -82,4 +82,20 @@ public class FCMain extends JavaPlugin {
 	public static FCMain getInstance(){
 		return instance;
 	}
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+
+            CarYml.spawnCar(null, null, e.getPlayer().getUniqueId());
+
+
+        }, 5);
+
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        CarYml.spawnCar(null, null, e.getPlayer().getUniqueId());
+    }
 }
