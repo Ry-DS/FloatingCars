@@ -96,7 +96,7 @@ public class PacketListener extends PacketAdapter {
 					||car.getLocation().getBlock().getRelative(0,-1,0).getType().equals(Material.WATER)
 							||car.getLocation().getBlock().getType().equals(Material.WATER))
 
-					&&hc.canHoverWater())car.setVelocity(car.getVelocity().setY(0));
+                            && hc.canHoverWater()) car.setVelocity(car.getVelocity().setY(0.05));
 					else if(!hc.canFly())car.setVelocity(car.getVelocity().setY(-0.5));
 					}
 				}
@@ -175,7 +175,7 @@ public class PacketListener extends PacketAdapter {
 				StringBuilder meter = new StringBuilder();
 				
 				if(hc.getFuel()!=null){
-					int i=0;
+                    int i;
 				for(i=0;i<Math.abs((float)fuel.get(hc)/hc.getCapacity()*20f);i++){
 					meter.append(LanguageYml.getAndConv("fuel-fill", "█"));
 					
