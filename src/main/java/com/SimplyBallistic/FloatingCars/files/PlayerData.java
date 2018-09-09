@@ -1,19 +1,18 @@
 package com.SimplyBallistic.FloatingCars.files;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
+import com.SimplyBallistic.FloatingCars.FCMain;
+import com.SimplyBallistic.util.InventorySerialization;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
-import com.SimplyBallistic.FloatingCars.FCMain;
-import com.SimplyBallistic.util.tacoserialization.InventorySerialization;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class PlayerData {
 	private static YamlConfiguration config;
@@ -34,14 +33,18 @@ if(!config.contains(id+".cars."+car+".inventory")){
 	setInventory(id, ret,car);
 	return ret;
 	}
-ret.setContents(InventorySerialization.getInventory(config.getString(id+".cars."+car+".inventory"), 27));
-	
+	try {
+		ret.setContents(InventorySerialization.itemStackArrayFromBase64(config.getString(id + ".cars." + car + ".inventory")));
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+
 	return ret;
 
 }
 public static void setInventory(UUID id, Inventory i,String car){
 	if(!config.contains(id+".cars."+car))return;
-	config.set(id+".cars."+car+".inventory", InventorySerialization.serializeInventoryAsString(i, true));
+	config.set(id + ".cars." + car + ".inventory", InventorySerialization.toBase64(i));
 	try {
 		config.save(save);
 	} catch (IOException e) {

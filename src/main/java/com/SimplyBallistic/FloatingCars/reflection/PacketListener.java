@@ -11,11 +11,11 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_12_R1.PacketPlayInSteerVehicle;
+import net.minecraft.server.v1_13_R2.PacketPlayInSteerVehicle;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -30,8 +30,8 @@ import java.util.HashMap;
 public class PacketListener extends PacketAdapter {
 	private static HashMap<HoverCar, HoverTime> hovertime = new HashMap<>();
 	public static HashMap<HoverCar, Integer>fuel=new HashMap<>();
-    private Material[] noSkip={Material.RED_ROSE,Material.SUGAR_CANE_BLOCK,Material.BROWN_MUSHROOM,
-            Material.RED_MUSHROOM,Material.YELLOW_FLOWER};
+	private Material[] noSkip = {Material.ROSE_RED, Material.SUGAR_CANE, Material.BROWN_MUSHROOM,
+			Material.RED_MUSHROOM, Material.CHORUS_FLOWER, Material.SUNFLOWER};
 	public PacketListener(Plugin plugin) {
 		super(plugin,ListenerPriority.NORMAL, PacketType.Play.Client.STEER_VEHICLE/*,PacketType.Play.Server.CHAT*/);
 		ProtocolLibrary.getProtocolManager().addPacketListener(this);
@@ -140,10 +140,10 @@ public class PacketListener extends PacketAdapter {
 					else fuel.put(hc,Integer.MAX_VALUE);
 				}
 				Block b=car.getLocation().getBlock();
-				boolean shift = packet.d();
-				boolean space = packet.c();
-				float forward = packet.b();
-				float side = packet.a();
+				boolean shift = packet.e();
+				boolean space = packet.d();
+				float forward = packet.c();
+				float side = packet.b();
 
 				Vector continuesVelocity=car.getVelocity().setY(0);
 				//System.out.println("Ride packet: space:"+space+" shift:"+shift+" forward:"+forward);

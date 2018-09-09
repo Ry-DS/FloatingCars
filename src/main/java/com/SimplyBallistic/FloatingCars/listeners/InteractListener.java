@@ -43,7 +43,7 @@ public void fuelAddEvent(PlayerInteractEvent e){
 				return;
 				}
 			}
-			if(e.getPlayer().getVehicle().getUniqueId().equals(hc.getCar().getUniqueId())&&e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.FIREBALL)){
+			if (e.getPlayer().getVehicle().getUniqueId().equals(hc.getCar().getUniqueId()) && e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.FIRE_CHARGE)) {
 				Fireball fireball=(Fireball)e.getPlayer().getWorld().spawnEntity(e.getPlayer().getEyeLocation().add(0, 1, 0), EntityType.FIREBALL);
 				fireball.setVelocity(e.getPlayer().getLocation().getDirection());
 				e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInMainHand().getAmount()-1);
