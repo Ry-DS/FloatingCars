@@ -249,9 +249,9 @@ public class CarYml {
 	public static ItemStack getItem(String car,UUID id){
 		ConfigurationSection carstats=config.getConfigurationSection(car);
 		if(carstats==null){System.out.println(":(");return null;}
-		@SuppressWarnings("deprecation") 
-		ItemStack iret=new ItemStack(Material.valueOf(carstats.getString("block", "potato_item").toUpperCase()),1,(short)0,(byte)carstats.getInt("block-data",0));
-		
+		@SuppressWarnings("deprecation")
+        ItemStack iret = new ItemStack(Material.valueOf(carstats.getString("block", "potato_item").toUpperCase()), 1, (short) 0/*,(byte)carstats.getInt("block-data",0)*/);
+
 		if(iret.getType().isBlock()){
 			ItemMeta meta=iret.getItemMeta();
 			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', carstats.getString("item-name",ChatColor.RED+"ERROR! Invalid or no name given!")));

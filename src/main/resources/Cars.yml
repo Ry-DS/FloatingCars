@@ -13,10 +13,7 @@ default:
     # The speed the car should fall at. Acts as jump strength if car cannot fly
     shift-speed: 1
     # The block the car should be represented as
-    block: 'monster_eggs'
-    # The data the block needs. 0 is default. This could represent color of wool,
-    # the type of monster_egg and many more
-    block-data: 2
+    block: 'infested_stone'
     # Whether this car flys
     flys: true
     # Whether this car has an inventory

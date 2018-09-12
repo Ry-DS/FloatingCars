@@ -7,6 +7,7 @@ import com.SimplyBallistic.FloatingCars.files.PlayerData;
 import com.google.common.collect.Sets;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -45,14 +46,15 @@ public class CarController extends BukkitRunnable implements Listener {
 
     @Override
     public void run() {
-        Set<HoverCar> toRemove = Sets.newHashSet();
 
+        Set<HoverCar> toRemove = Sets.newHashSet();
         plugin.lastInput.forEach((hc, packet) -> {
-            Player player = (Player) hc.getCar().getPassengers().get(0);
-            if (player == null) {
+
+            if (hc.getCar().getPassengers().isEmpty()) {
                 toRemove.add(hc);
                 return;
             }
+            Player player = (Player) hc.getCar().getPassengers().get(0);
 
             ArmorStand car = (ArmorStand) player.getVehicle();
             if (!car.getPassengers().isEmpty() && !(car.getPassengers().get(0) instanceof Player))
@@ -82,6 +84,7 @@ public class CarController extends BukkitRunnable implements Listener {
 
 
                 hover(hc);
+                Bukkit.broadcastMessage("Hover");
                 car.setHeadPose(new EulerAngle(0, 0, 0));
 
 
@@ -247,9 +250,9 @@ public class CarController extends BukkitRunnable implements Listener {
     private void hover(HoverCar car) {
 
         hovertime.computeIfAbsent(car, k -> new HoverTime());
-        hovertime.get(car).advTime(1);
+        hovertime.get(car).advTime(2);
         if (hovertime.get(car).hoverUp)
-            car.getCar().setVelocity((car.getCar().getVelocity().setY(0.05)));
+            car.getCar().setVelocity((car.getCar().getVelocity().setY(0.1)));
         else car.getCar().setVelocity(car.getCar().getVelocity().setY(-0.05));
         if (hovertime.get(car).time % 20 == 0) hovertime.get(car).hoverUp = !hovertime.get(car).hoverUp;
 

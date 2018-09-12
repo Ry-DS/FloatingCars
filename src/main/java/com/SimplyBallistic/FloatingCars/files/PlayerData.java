@@ -35,7 +35,7 @@ if(!config.contains(id+".cars."+car+".inventory")){
 	}
 	try {
 		ret.setContents(InventorySerialization.itemStackArrayFromBase64(config.getString(id + ".cars." + car + ".inventory")));
-	} catch (IOException e) {
+	} catch (IOException | IllegalArgumentException e) {
 		e.printStackTrace();
 	}
 
