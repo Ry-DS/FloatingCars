@@ -7,7 +7,6 @@ import com.SimplyBallistic.FloatingCars.files.PlayerData;
 import com.google.common.collect.Sets;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -84,7 +83,6 @@ public class CarController extends BukkitRunnable implements Listener {
 
 
                 hover(hc);
-                Bukkit.broadcastMessage("Hover");
                 car.setHeadPose(new EulerAngle(0, 0, 0));
 
 
