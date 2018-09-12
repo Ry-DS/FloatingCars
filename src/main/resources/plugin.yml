@@ -1,8 +1,9 @@
 name: FloatingCars
 main: com.SimplyBallistic.FloatingCars.FCMain
-version: 1.03
+version: 1.04
 description:  Cars...that hover!
 author: SimplyBallistic
+api-version: 1.13
 commands:
    spacecar:
       description: Spacecars
